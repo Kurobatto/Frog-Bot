@@ -5,8 +5,8 @@ const token = require('./settings.json').token;
 
 //Sends startup message when fired
 client.on('ready',() => {
-    console.log('Frogbot ready for combat!');
-    client.channels.get('145013323019059200').send('Teleport successful!')
+  console.log('Frogbot ready for combat!');
+  client.channels.get('145013323019059200').send('Teleport successful!')
 });
 
 //Sets the prefix required to activate the bot
@@ -21,25 +21,35 @@ client.on('message', message => {
     if (message.author.bot) return;
 
     //Displays the amount of time it took in miliseconds to receive command and to respond
-    if (message.content === (prefix + 'ping')) {
-        message.channel.send(`This message took \`${Date.now() - message.createdTimestamp} ms\` to reach you!`);
+    if (message.content.toLowerCase() === (prefix + 'ping')) {
+      //Creates a variable to save the user's message time
+      var startTime = message.createdTimestamp;
+
+      //Sends a placeholder message to compare times
+      message.channel.send(`Pong!`).then(message => {
+          //Subtracts this message's time by the user's message to calculate ping
+          message.edit(`This message took \`${Math.round(message.createdTimestamp - startTime)} ms\` to reach you!`)
+      });
     } else
 
     //Message that tells commands, aka huge mess. Need to find a better way to display in source code.
-    if (message.content === (prefix + 'commands')) {
+    if (message.content.toLowerCase() === (prefix + 'commands')) {
       message.channel.send(`\`\`\`css\nPing - Displays the amount of time it takes the bot to recieve your message and send a response\nDatBoi - Here comes dat boi\nOShitWaddup - O shit waddup\n\`\`\``);
     } else
 
     //Responds with a meme to a meme hypothesis
-    if (message.content === (prefix + 'datboi')) {
+    if (message.content.toLowerCase() === (prefix + 'datboi')) {
       message.channel.send('O shit waddup!');
     } else
 
     //Responds with a meme to a meme conclusion
-    if (message.content === (prefix + 'oshitwaddup')) {
-        message.channel.send('Here comes dat boi!');
+    if (message.content.toLowerCase() === (prefix + 'oshitwaddup')) {
+      message.channel.send('Here comes dat boi!');
     }
 });
 
 //Tells the bot what token to login with
 client.login(token);
+
+
+//`This message took \`${client.ping} ms\` to reach you!`
