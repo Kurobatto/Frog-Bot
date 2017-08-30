@@ -45,6 +45,11 @@ client.on('message', message => {
     //Responds with a meme to a meme conclusion
     if (message.content.toLowerCase() === (prefix + 'oshitwaddup')) {
       message.channel.send('Here comes dat boi!');
+    } else
+
+    //Responds with Pingu noises
+    if (message.content.toLowerCase() === (prefix + 'pingu')) {
+      message.channel.send('Noot Noot :penguin:');
     }
 });
 
