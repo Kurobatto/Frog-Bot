@@ -1,14 +1,28 @@
 {
   "name": "frogbot",
   "version": "0.1.0",
-  "description": "Ribbit",
-  "main": "app.js",
+  "description": "My personal discord bot used for adding functions to my servers",
+  "main": "index.js",
+  "engines": {
+      "node": "6.11.2",
+      "npm": "3.10.10"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+	"start": "node index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kurobatto/Frog-Bot.git"
+  },
+  "keywords": [
+    "heroku",
+    "discord.js"
+  ],
   "author": "Kurobatto",
   "license": "MIT",
-  "dependencies": {
-    "discord.js": "^11.1.0"
-  }
+  "bugs": {
+    "url": "https://github.com/Kurobatto/Frog-Bot/issues"
+  },
+ "homepage": "https://github.com/Kurobatto/Frog-Bot#readme"
 }
