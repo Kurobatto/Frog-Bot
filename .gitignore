@@ -1,9 +1,6 @@
 # Directories
 /node_modules/
 
-# Specific Files
-settings.json
-
 # Logs
 logs
 *.log
