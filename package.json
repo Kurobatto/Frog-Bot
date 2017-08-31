@@ -21,6 +21,9 @@
   ],
   "author": "Kurobatto",
   "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.1.0"
+  }
   "bugs": {
     "url": "https://github.com/Kurobatto/Frog-Bot/issues"
   },
