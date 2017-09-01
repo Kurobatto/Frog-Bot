@@ -55,6 +55,9 @@ client.on('message', message => {
 //Tells the bot what token to login with
 client.login(process.env.BotToken);
 
+//Sets the bot's game display message
+clientuser.setGame = 'On a unicycle'
+
 
 //Web application portion that ensures Heroku never falls asleep
 const express = require('express');
