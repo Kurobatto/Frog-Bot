@@ -1,7 +1,6 @@
 //Does some basic defintions in order to make the bot function
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const token = process.env["BotToken"];
 
 //Sends startup message when fired
 client.on('ready',() => {
@@ -54,7 +53,7 @@ client.on('message', message => {
 });
 
 //Tells the bot what token to login with
-client.login(token);
+client.login(process.env.BotToken);
 
 
 //Web application portion that ensures Heroku never falls asleep
