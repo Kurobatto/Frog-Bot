@@ -5,8 +5,6 @@ const client = new Discord.Client();
 //Sends startup message when fired
 client.on('ready',() => {
   console.log('Frogbot ready for combat!');
-  client.channels.get('145013323019059200').send('Teleport successful!')
-
   //Sets the bot's game display message
   client.user.setGame('On a unicycle')
 });
