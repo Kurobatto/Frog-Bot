@@ -5,8 +5,6 @@ const client = new Discord.Client();
 //Sends startup message when fired
 client.on('ready',() => {
   console.log('Frogbot ready for combat!');
-  //Sets the bot's game display message
-  client.user.setGame('On a unicycle')
 });
 
 //Sets the prefix required to activate the bot
@@ -14,6 +12,9 @@ var prefix = '~'
 
 //Fires on message send in any channel
 client.on('message', message => {
+    //Sets the bot's game display message
+    client.user.setGame('On a unicycle')
+
     //Ignores message if it does not start with prefix
     if (!message.content.startsWith(prefix)) return;
 
