@@ -82,3 +82,8 @@ app.listen(port, () => {
     // will echo 'Our app is running on http://localhost:5000 when run locally'
     console.log('Our app is running on http://localhost:' + port);
 });
+
+// pings server every 15 minutes to prevent dynos from sleeping
+setInterval(() => {
+ http.get('http://your-app-name.herokuapp.com');
+}, 900000);
