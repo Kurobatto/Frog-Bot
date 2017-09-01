@@ -1,7 +1,7 @@
 //Does some basic defintions in order to make the bot function
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const token = require('./settings.json').token;
+const token = process.env["BotToken"];
 
 //Sends startup message when fired
 client.on('ready',() => {
