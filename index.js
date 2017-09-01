@@ -6,7 +6,7 @@ const client = new Discord.Client();
 client.on('ready',() => {
   console.log('Frogbot ready for combat!');
   //Sets the bot's game display message
-  client.user.setPresence({ status: 'online', game: { name: 'On a unicycle', type: 0 } });
+  client.user.setPresence({ status: 'online', game: { name: 'on a unicycle', type: 0 } });
 });
 
 //Sets the prefix required to activate the bot
