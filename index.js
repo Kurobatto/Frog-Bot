@@ -6,6 +6,9 @@ const client = new Discord.Client();
 client.on('ready',() => {
   console.log('Frogbot ready for combat!');
   client.channels.get('145013323019059200').send('Teleport successful!')
+
+  //Sets the bot's game display message
+  client.user.setGame('On a unicycle')
 });
 
 //Sets the prefix required to activate the bot
@@ -54,10 +57,6 @@ client.on('message', message => {
 
 //Tells the bot what token to login with
 client.login(process.env.BotToken);
-
-//Sets the bot's game display message
-clientuser.setGame = 'On a unicycle'
-
 
 //Web application portion that ensures Heroku never falls asleep
 const express = require('express');
