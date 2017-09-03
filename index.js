@@ -61,7 +61,7 @@ client.on('message', message => {
       });
     } else
 
-    if (message.content.toLowerCase().startsWith(prefix + 'r *d*') {
+    if (message.content.toLowerCase().match(prefix + (/^ .d....$/)) {
       message.channel.send("It worked!");
       //var messageArray = message.content.split(/[\sd]+/)
     }
