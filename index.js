@@ -61,10 +61,13 @@ client.on('message', message => {
       });
     } else
 
-    if (message.content.toLowerCase().match(prefix + (/^r\s\dd\d+/))) {
+    if (message.content.toLowerCase().test(/^~r\s\dd\d+/))) {
       message.channel.send("It worked!");
       //var messageArray = message.content.split(/[\sd]+/)
-    }
+    } else
+
+    //Debug message
+    message.channel.send("It didn't work boss!");
 });
 
 //Tells the bot what token to login with
