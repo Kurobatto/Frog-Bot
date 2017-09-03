@@ -61,9 +61,9 @@ client.on('message', message => {
       });
     } else
 
-    if (message.content.toLowerCase().startsWith(prefix + 'r')) {
-      message.channel.send('It worked!');
-      //var messageArray = .split("")
+    if (message.content.toLowerCase().startsWith(prefix + 'r ' + (/[\d]+/) + 'd' + (/[\d]+/)) {
+      message.channel.send("It worked!");
+      //var messageArray = message.content.split(/[\sd]+/)
     }
 });
 
