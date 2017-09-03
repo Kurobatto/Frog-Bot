@@ -61,10 +61,10 @@ client.on('message', message => {
       });
     } else
 
-    if (message.content.test(/^~r\s\dd\d+/)) {
-      message.channel.send("It worked!");
+    //if (message.content.test(/^~r\s\dd\d+/)) {
+      //message.channel.send("It worked!");
       //var messageArray = message.content.split(/[\sd]+/)
-    } else
+    //} else
 
     //Debug message
     message.channel.send("It didn't work boss!");
