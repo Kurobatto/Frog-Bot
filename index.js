@@ -2,10 +2,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-//Defines the image embed
-const embed = new Discord.RichEmbed()
-    .setImage('https://i.imgur.com/XHBa71T.jpg');
-
 //Sends startup message when fired
 client.on('ready',() => {
   console.log('Frogbot ready for combat!');
@@ -58,9 +54,11 @@ client.on('message', message => {
       message.channel.send('Noot Noot :penguin:');
     } else
 
-    //Responds to message with an image
+    //Responds to a message with a relevant image
     if (message.content.toLowerCase() === (prefix + 'bitchholdon')) {
-      message.channel.send({embed});
+      message.channel.send("", {
+        file: "https://i.imgur.com/XHBa71T.jpg"
+      });
     }
 });
 
