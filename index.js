@@ -59,6 +59,11 @@ client.on('message', message => {
       message.channel.send("", {
         file: "https://i.imgur.com/XHBa71T.jpg"
       });
+    } else
+
+    if (message.content.toLowerCase().startsWith(prefix + 'r')) {
+      message.channel.send('It worked!');
+      //var messageArray = .split("")
     }
 });
 
