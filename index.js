@@ -61,7 +61,7 @@ client.on('message', message => {
       });
     } else
 
-    //Rolling dice command
+    //Testing rolling dice command
     //if (message.content.test(/^~r\s\dd\d+/)) {
       //message.channel.send("It worked!");
       //var messageArray = message.content.split(/[\sd]+/)
