@@ -15,7 +15,11 @@ var prefix = '~'
 //Fires on message send in any channel
 client.on('message', message => {
     //Saves the message's content as a string
-    var messageString = message.content
+    var messageString = message.content;
+
+    //Saves two alternative dice rolling commands
+    var diceString = new RegExp(/^~r\s\d+d\d+/);
+    var diceStringAlt = new RegExp(/^~r\sd\d+/);
 
     //Ignores message if it does not start with prefix
     if (!message.content.startsWith(prefix)) return;
@@ -82,10 +86,58 @@ client.on('message', message => {
       });
     } else
 
-    //Testing rolling dice command
-    if (messageString.test(/^~r\s\dd\d+/)) {
-      message.channel.send("It worked!");
-      var messageArray = message.content.split(/[\sd]+/)
+    //Dice roll command
+    if (diceString.test(messageString)) {
+      //Splits the message into two numbers
+      var messageArray = message.content.split(/[\D]+/);
+
+      //Sets the number of dice rolled and the number of faces on a dice
+      var diceAmount = parseInt(messageArray[1]);
+      var diceNumber = parseInt(messageArray[2]);
+
+      //Checks to see if the dice variables are positive numbers
+      if (diceAmount <= 0 || diceNumber <= 0) {
+        message.channel.send('Please don\'t send non-positive values.');
+        return;
+      }
+
+      //Sets the variable to hold the dice total
+      var diceTotal = 0;
+
+      //Caclculates the dice total
+      for (i = 0; i < diceAmount; i++) {
+        diceTotal += Math.floor((Math.random() * diceNumber) + 1);
+      }
+
+      //Sends the dice total
+      message.channel.send(diceTotal);
+    } else
+
+    //Alternative dice rolling command
+    if (diceStringAlt.test(messageString)) {
+      //Splits the message into two numbers
+      var messageArray = message.content.split(/[\D]+/);
+
+      //Sets the number of dice rolled and the number of faces on a dice
+      var diceAmount = 1;
+      var diceNumber = parseInt(messageArray[1]);
+
+      //Checks to see if the dice variables are positive numbers
+      if (diceNumber <= 0) {
+        message.channel.send('Please don\'t send non-positive values.');
+        return;
+      }
+
+      //Sets the variable to hold the dice total
+      var diceTotal = 0;
+
+      //Caclculates the dice total
+      for (i = 0; i < diceAmount; i++) {
+        diceTotal += Math.floor((Math.random() * diceNumber) + 1);
+      }
+
+      //Sends the dice total
+      message.channel.send(diceTotal);
     } else
 
     //Debug message
