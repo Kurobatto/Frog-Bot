@@ -66,7 +66,7 @@ client.on('message', message => {
     } else
 
     //B emoji version of ping command
-    if (message.content.toLowerCase() === (prefix + `:b:ing`)) {
+    if (message.content.toLowerCase() === (prefix + "🅱ing")) {
       //Creates a variable to save the user's message time
       var startTime = message.createdTimestamp;
 
