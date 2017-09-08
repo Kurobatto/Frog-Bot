@@ -110,10 +110,10 @@ client.on('message', message => {
       }
 
       //Adds commas to answer
-      var diceTotalString = diceTotal.toLocaleString()
+      var diceTotalString = diceTotal.toLocaleString();
 
       //Sends the dice total
-      message.channel.send(diceTotal);
+      message.channel.send(diceTotalString);
     } else
 
     //Alternative dice rolling command
@@ -140,7 +140,7 @@ client.on('message', message => {
       }
 
       //Adds commas to answer
-      var diceTotalString = diceTotal.toLocaleString()
+      var diceTotalString = diceTotal.toLocaleString();
 
       //Sends the dice total
       message.channel.send(diceTotalString);
