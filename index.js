@@ -14,7 +14,8 @@ var prefix = '~'
 
 //Fires on message send in any channel
 client.on('message', message => {
-    //Sets the bot's game display message
+    //Saves the message's content as a string
+    var messageString = message.content
 
     //Ignores message if it does not start with prefix
     if (!message.content.startsWith(prefix)) return;
@@ -82,10 +83,10 @@ client.on('message', message => {
     } else
 
     //Testing rolling dice command
-    //if (message.content.test(/^~r\s\dd\d+/)) {
-      //message.channel.send("It worked!");
-      //var messageArray = message.content.split(/[\sd]+/)
-    //} else
+    if (messageString.test(/^~r\s\dd\d+/)) {
+      message.channel.send("It worked!");
+      var messageArray = message.content.split(/[\sd]+/)
+    } else
 
     //Debug message
     message.channel.send("It didn't work boss!");
