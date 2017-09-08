@@ -135,9 +135,11 @@ client.on('message', message => {
       for (i = 0; i < diceAmount; i++) {
         diceTotal += Math.floor((Math.random() * diceNumber) + 1);
       }
+      //Adds commas to answer
+      var diceTotalString = diceTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
       //Sends the dice total
-      message.channel.send(diceTotal);
+      message.channel.send(diceTotalString);
     } else
 
     //Debug message
