@@ -28,9 +28,13 @@ client.on('message', message => {
       var startTime = message.createdTimestamp;
 
       //Sends a placeholder message to compare times
-      message.channel.send(`Pong!`).then(message => {
+      message.channel.send(`:ping_pong: Pong!`).then(message => {
           //Subtracts this message's time by the user's message to calculate ping
-          message.edit(`This message took \`${Math.round(message.createdTimestamp - startTime)} ms\` to reach you!`)
+          message.edit(`This message took \`${Math.round(message.createdTimestamp - startTime)} ms\` to reach you!`);
+          //Checks to see if there is a 0 or negative ping value, then displays error message
+          if (Math.round(message.createdTimestamp - startTime <= 0)) {
+            message.channel.send('Wait a minute, that can\'t be right...')
+          }
       });
     } else
 
@@ -58,6 +62,22 @@ client.on('message', message => {
     if (message.content.toLowerCase() === (prefix + 'bitchholdon')) {
       message.channel.send("", {
         file: "https://i.imgur.com/XHBa71T.jpg"
+      });
+    } else
+
+    //B emoji version of ping command
+    if (message.content.toLowerCase() === (prefix + ':b:ing')) {
+      //Creates a variable to save the user's message time
+      var startTime = message.createdTimestamp;
+
+      //Sends a placeholder message to compare times
+      message.channel.send(`:ping_pong: :b:ong!`).then(message => {
+          //Subtracts this message's time by the user's message to calculate ping
+          message.edit(`This :b:essage took \`${Math.round(message.createdTimestamp - startTime)} ms\` to :b:each you!`);
+          //Checks to see if there is a 0 or negative ping value, then displays error message
+          if (Math.round(message.createdTimestamp - startTime <= 0)) {
+            message.channel.send('Wait a :b:inute, that can\'t be :b:ight...')
+          }
       });
     } else
 
