@@ -101,6 +101,12 @@ client.on('message', message => {
         return;
       }
 
+      //Checks to see if the dice variables are bigger or equal to 100,000
+      if (diceAmount >= 100000 || diceNumber >= 100000) {
+        message.channel.send('Please only use values less than 100,000.')
+        return;
+      }
+
       //Sets the variable to hold the dice total
       var diceTotal = 0;
 
@@ -128,6 +134,12 @@ client.on('message', message => {
       //Checks to see if the dice variables are positive numbers
       if (diceNumber <= 0) {
         message.channel.send('Please don\'t send non-positive values.');
+        return;
+      }
+
+      //Checks to see if the dice variables are bigger or equal to 100,000
+      if (diceNumber >= 100000) {
+        message.channel.send('Please only use values less than 100,000.')
         return;
       }
 
