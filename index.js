@@ -192,5 +192,5 @@ app.listen(port, () => {
 
 // pings server every 15 minutes to prevent dynos from sleeping
 setInterval(() => {
- http.get('http://your-app-name.herokuapp.com');
+ http.get('http://frogbotdiscord.herokuapp.com');
 }, 900000);
