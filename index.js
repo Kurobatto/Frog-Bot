@@ -2,6 +2,21 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+//Saves two alternative dice rolling commands
+var diceString = new RegExp(/^~r\s\d+d\d+/i);
+var diceStringAlt = new RegExp(/^~r\sd\d+/i);
+var diceAlt = new RegExp(/\sd/);
+var diceSplit = new RegExp(/[^0123456789\+\-\*\/]+/)
+
+//Declares function that calculates dice total
+function diceCalculator(diceAmount, diceNumber) {
+  var diceTotalTemp = 0;
+  for (i = 0; i < diceAmount; i++) {
+    diceTotalTemp += Math.floor((Math.random() * diceNumber) + 1);
+  }
+  return diceTotalTemp;
+}
+
 //Sends startup message when fired
 client.on('ready',() => {
   console.log('Frogbot ready for combat!');
@@ -16,10 +31,6 @@ var prefix = '~'
 client.on('message', message => {
     //Saves the message's content as a string
     var messageString = message.content;
-
-    //Saves two alternative dice rolling commands
-    var diceString = new RegExp(/^~r\s\d+d\d+/);
-    var diceStringAlt = new RegExp(/^~r\sd\d+/);
 
     //Ignores message if it does not start with prefix
     if (!message.content.startsWith(prefix)) return;
@@ -86,69 +97,99 @@ client.on('message', message => {
       });
     } else
 
-    //Dice roll command
-    if (diceString.test(messageString)) {
-      //Splits the message into two numbers
-      var messageArray = message.content.split(/[\D]+/);
-
-      //Sets the number of dice rolled and the number of faces on a dice
-      var diceAmount = parseInt(messageArray[1]);
-      var diceNumber = parseInt(messageArray[2]);
-
-      //Checks to see if the dice variables are positive numbers
-      if (diceAmount <= 0 || diceNumber <= 0) {
-        message.channel.send('Please don\'t send non-positive values.');
-        return;
-      }
-
-      //Checks to see if the dice variables are bigger or equal to 100,000
-      if (diceAmount >= 100000 || diceNumber >= 100000) {
-        message.channel.send('Please only use values less than 100,000.')
-        return;
-      }
-
-      //Sets the variable to hold the dice total
+    //Checks to see if the message follows the dice roll command format
+    if (diceString.test(messageString) || diceStringAlt.test(messageString)) {
+      //Declares some variables for use later
+      var diceAmount = 0;
+      var diceNumber = 0;
       var diceTotal = 0;
 
-      //Caclculates the dice total
-      for (i = 0; i < diceAmount; i++) {
-        diceTotal += Math.floor((Math.random() * diceNumber) + 1);
-      }
-
-      //Adds commas to answer
-      var diceTotalString = diceTotal.toLocaleString();
-
-      //Sends the dice total
-      message.channel.send(diceTotalString);
-    } else
-
-    //Alternative dice rolling command
-    if (diceStringAlt.test(messageString)) {
       //Splits the message into two numbers
-      var messageArray = message.content.split(/[\D]+/);
+      var messageArray = message.content.split(diceSplit);
 
-      //Sets the number of dice rolled and the number of faces on a dice
-      var diceAmount = 1;
-      var diceNumber = parseInt(messageArray[1]);
+      //Checks to see if the message is a variant of the dice rolling command
+      if (diceAlt.test(messageString)) {
+        //Sets the dice amount and dice number
+        diceAmount = 1;
+        diceNumber = parseInt(messageArray[1]);
 
-      //Checks to see if the dice variables are positive numbers
-      if (diceNumber <= 0) {
-        message.channel.send('Please don\'t send non-positive values.');
-        return;
-      }
+        //Checks to see if the dice variables are positive numbers
+        if (diceAmount <= 0 || diceNumber <= 0) {
+          message.channel.send('Please don\'t send non-positive values.');
+          return;
+        }
 
-      //Checks to see if the dice variables are bigger or equal to 100,000
-      if (diceNumber >= 100000) {
-        message.channel.send('Please only use values less than 100,000.')
-        return;
-      }
+        //Checks to see if the dice variables are bigger or equal to 100,000
+        if (diceAmount >= 100000 || diceNumber >= 100000) {
+          message.channel.send('Please only use values less than 100,000.')
+          return;
+        }
 
-      //Sets the variable to hold the dice total
-      var diceTotal = 0;
+        //Calculates the dice total before any operations
+        diceTotal = diceCalculator(diceAmount, diceNumber)
 
-      //Caclculates the dice total
-      for (i = 0; i < diceAmount; i++) {
-        diceTotal += Math.floor((Math.random() * diceNumber) + 1);
+        //Applies operators to the dice result
+        for (i = 1; i < (Math.floor((messageArray.length + 1) / 2)); i++) {
+          if (messageArray[(i + i)] == '+') {
+            diceTotal += parseInt(messageArray[(i + i + 1)]);
+          } else
+
+          if (messageArray[(i + i)] == '-') {
+            diceTotal -= parseInt(messageArray[(i + i + 1)]);
+          } else
+
+          if (messageArray[(i + i)] == '*') {
+            diceTotal *= parseInt(messageArray[(i + i + 1)]);
+          } else
+
+          if (messageArray[(i + i)] == '/') {
+            diceTotal = Math.round(diceTotal / parseInt(messageArray[(i + i + 1)]));
+          } else {
+            message.channel.send('Please only use basic arithmetic operators.');
+            return;
+          }
+        }
+      } else {
+        //Sets the dice amount and dice number
+        diceAmount = parseInt(messageArray[1]);
+        diceNumber = parseInt(messageArray[2]);
+
+        //Checks to see if the dice variables are positive numbers
+        if (diceAmount <= 0 || diceNumber <= 0) {
+          message.channel.send('Please don\'t send non-positive values.');
+          return;
+        }
+
+        //Checks to see if the dice variables are bigger or equal to 100,000
+        if (diceAmount >= 100000 || diceNumber >= 100000) {
+          message.channel.send('Please only use values less than 100,000.');
+          return;
+        }
+
+        //Calculates the dice total before any operations
+        diceTotal = diceCalculator(diceAmount, diceNumber)
+
+        //Applies operators to the dice result
+        for (i = 1; i < (Math.floor((messageArray.length) / 2)); i++) {
+          if (messageArray[(i + i + 1)] == '+') {
+            diceTotal += parseInt(messageArray[(i + i + 2)]);
+          } else
+
+          if (messageArray[(i + i + 1)] == '-') {
+            diceTotal -= parseInt(messageArray[(i + i + 2)]);
+          } else
+
+          if (messageArray[(i + i + 1)] == '*') {
+            diceTotal *= parseInt(messageArray[(i + i + 2)]);
+          } else
+
+          if (messageArray[(i + i + 1)] == '/') {
+            diceTotal = Math.round(diceTotal / parseInt(messageArray[(i + i + 2)]));
+          } else {
+            message.channel.send('Please only use basic arithmetic operators.');
+            return;
+          }
+        }
       }
 
       //Adds commas to answer
