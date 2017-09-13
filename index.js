@@ -1,6 +1,7 @@
 //Does some basic defintions in order to make the bot function
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const schedule = require('node-schedule');
 
 //Saves two alternative dice rolling commands
 var diceString = new RegExp(/^~r\s\d+d\d+/i);
