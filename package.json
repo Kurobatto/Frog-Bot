@@ -4,8 +4,8 @@
   "description": "My personal discord bot used for adding functions to my servers",
   "main": "index.js",
   "engines": {
-      "node": "6.11.2",
-      "npm": "3.10.10"
+    "node": "6.11.2",
+    "npm": "3.10.10"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -23,10 +23,10 @@
   "license": "MIT",
   "dependencies": {
     "discord.js": "^11.1.0",
-    "node-schedule": "1.2.4"
+    "node-schedule": "^1.2.4"
   },
   "bugs": {
     "url": "https://github.com/Kurobatto/Frog-Bot/issues"
   },
- "homepage": "https://github.com/Kurobatto/Frog-Bot#readme"
+  "homepage": "https://github.com/Kurobatto/Frog-Bot#readme"
 }
