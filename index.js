@@ -34,13 +34,13 @@ client.on('message', message => {
     var messageString = message.content;
 
     //Responds when bot is praised
-    if (message.content.toLowercase().startsWith('good boi' || 'good bot')) {
-      message.channel.send('*wags tail*');
+    if (message.content.toLowerCase().startsWith('good boi')) {
+      message.channel.send('Ribbit :frog:');
     } else
 
     //Responds when bot is criticized
-    if (message.content.toLowercase().startsWith('bad boi' || 'bad bot')) {
-      message.channel.send('*whimpers*');
+    if (message.content.toLowerCase().startsWith('bad boi')) {
+      message.channel.send('Ribbit :frog:');
     }
 
     //Ignores message if it does not start with prefix
