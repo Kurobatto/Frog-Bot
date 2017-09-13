@@ -239,15 +239,7 @@ var date = new Date();
 
 // pings server every 15 minutes to prevent dynos from sleeping
 setInterval(() => {
-  date = date.getDay()
   http.get('http://frogbotdiscord.herokuapp.com');
-  if (date = 3 && canBeWednesday) {
-    client.channels.get('140946564901240832').send("", {
-      file: "https://i.imgur.com/SPDD3R2.jpg"
-    });
-    canBeWednesday = false;
-  }
-  if (date = 4) {
-    canBeWednesday = true
-  }
 }, 900000);
+
+//file: "https://i.imgur.com/SPDD3R2.jpg"
