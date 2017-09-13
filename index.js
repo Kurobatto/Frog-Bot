@@ -33,6 +33,16 @@ client.on('message', message => {
     //Saves the message's content as a string
     var messageString = message.content;
 
+    //Responds when bot is praised
+    if (message.content.toLowercase().startsWith('good boi' || 'good bot')) {
+      message.channel.send('*wags tail*');
+    } else
+
+    //Responds when bot is criticized
+    if (message.content.toLowercase().startsWith('bad boi' || 'bad bot')) {
+      message.channel.send('*whimpers*');
+    }
+
     //Ignores message if it does not start with prefix
     if (!message.content.startsWith(prefix)) return;
 
