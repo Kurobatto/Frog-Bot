@@ -232,15 +232,12 @@ app.listen(port, () => {
     console.log('Our app is running on http://localhost:' + port);
 });
 
-//Sets variable to find Date
-var date = new Date();
-
 // pings server every 15 minutes to prevent dynos from sleeping
 setInterval(() => {
   http.get('http://frogbotdiscord.herokuapp.com');
 }, 900000);
 
-var frogTime = schedule.scheduleJob({hour: 1, minute: 28, dayOfWeek: 3}, function(){
+var frogTime = schedule.scheduleJob({hour: 1, minute: 36, dayOfWeek: 3}, function(){
   client.channels.get('140946564901240832').send("", {
     file: "https://i.imgur.com/SPDD3R2.jpg"
   });
