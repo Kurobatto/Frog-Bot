@@ -40,7 +40,7 @@ client.on('message', message => {
 
     //Responds when bot is criticized
     if (message.content.toLowerCase().startsWith('bad boi')) {
-      message.channel.send('Ribbit :frog:');
+      message.channel.send(':ChillBinch:');
     }
 
     //Ignores message if it does not start with prefix
