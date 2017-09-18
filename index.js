@@ -9,6 +9,10 @@ var diceStringAlt = new RegExp(/^~r\sd\d+/i);
 var diceAlt = new RegExp(/\sd/);
 var diceSplit = new RegExp(/[^0123456789\+\-\*\/]+/)
 
+//Declares variables for mojave function
+var mojaveHour = 16;
+var mojaveMinute = 10
+
 //Declares function that calculates dice total
 function diceCalculator(diceAmount, diceNumber) {
   var diceTotalTemp = 0;
@@ -16,6 +20,17 @@ function diceCalculator(diceAmount, diceNumber) {
     diceTotalTemp += Math.floor((Math.random() * diceNumber) + 1);
   }
   return diceTotalTemp;
+}
+
+var mojaveRule = new schedule.RecurrenceRule();
+rule.dayOfWeek = 4;
+rule.hour = mojaveHour;
+rule.minute = mojaveMinute;
+
+//Functions that determines a new random time for Mojave meme
+function mojaveTime() {
+  mojaveHour = Math.floor((Math.random() * 23) + 0);
+  mojaveMinute = Math.floor((Math.random() * 60) + 0);
 }
 
 //Sends startup message when fired
@@ -247,8 +262,16 @@ setInterval(() => {
   http.get('http://frogbotdiscord.herokuapp.com');
 }, 900000);
 
-var frogTime2 = schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 3}, function(){
+var frogSchedule = schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 3}, function(){
   client.channels.get('140946564901240832').send("", {
     file: "https://i.imgur.com/SPDD3R2.jpg"
   });
+});
+
+var mojaveSchedule = schedule.scheduleJob(mojaveRule, function(){
+  client.channels.get('99249836628406272').send("Patrolling the Mojave almost makes you wish for a nuclear winter.");
+});
+
+var mojaveReset = schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 5}, function(){
+  mojaveTime()
 });
