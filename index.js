@@ -10,8 +10,8 @@ var diceAlt = new RegExp(/\sd/);
 var diceSplit = new RegExp(/[^0123456789\+\-\*\/]+/)
 
 //Declares variables for mojave function
-var mojaveHour = 16;
-var mojaveMinute = 10
+var mojaveHour = 0;
+var mojaveMinute = 0;
 
 //Declares function that calculates dice total
 function diceCalculator(diceAmount, diceNumber) {
@@ -22,10 +22,11 @@ function diceCalculator(diceAmount, diceNumber) {
   return diceTotalTemp;
 }
 
+//Defines the mojave rule recurrence
 var mojaveRule = new schedule.RecurrenceRule();
-rule.dayOfWeek = 4;
-rule.hour = mojaveHour;
-rule.minute = mojaveMinute;
+mojaveRule.dayOfWeek = 4;
+mojaveRule.hour = Math.floor((Math.random() * 23) + 0);
+mojaveRule.minute = Math.floor((Math.random() * 60) + 0);
 
 //Functions that determines a new random time for Mojave meme
 function mojaveTime() {
