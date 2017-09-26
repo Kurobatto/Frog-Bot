@@ -128,6 +128,18 @@ client.on('message', message => {
       });
     } else
 
+    //Palindrome message command
+    if (message.content.toLowerCase().startsWith(prefix + 'palindrome')) {
+        //Creates the new string to send
+        var reverseMessage = "";
+        //Reverses the message sent one character at a time
+        for (var i = messageString.length - 1; i >= 0; i--) {
+          reverseMessage += messageString[i]; 
+        }
+        //Sends the message back to the channel
+        message.channel.send(reverseMessage);
+    } else
+
     //Checks to see if the message follows the dice roll command format
     if (diceString.test(messageString) || diceStringAlt.test(messageString)) {
       //Declares some variables for use later
