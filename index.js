@@ -133,8 +133,8 @@ client.on('message', message => {
         //Creates the new string to send
         var reverseMessage = "";
         //Reverses the message sent one character at a time
-        for (var i = messageString.length - 1; i >= 0; i--) {
-          reverseMessage += messageString[i]; 
+        for (var i = messageString.length - 1; i >= 12; i--) {
+          reverseMessage += messageString[i];
         }
         //Sends the message back to the channel
         message.channel.send(reverseMessage);
