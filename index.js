@@ -3,6 +3,9 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const schedule = require('node-schedule');
 
+//Defines the array for each discord channel
+var discordChannel = ['98910743633608704', '99249836628406272', '140946564901240832', '99249863128002560', '200384608745947137', '355098490013220895', '145013323019059200', '308052854227075074', '208739103674466304', '263868020059799552', '348892634250739712', '106046995860332544', '106049853494198272', '276383014890504193', '268216162452635649', '139408808031027200', '192855751063109632'];
+
 //Saves two alternative dice rolling commands
 var diceString = new RegExp(/^~r\s\d+d\d+/i);
 var diceStringAlt = new RegExp(/^~r\sd\d+/i);
@@ -12,6 +15,19 @@ var diceSplit = new RegExp(/[^0123456789\+\-\*\/]+/)
 //Declares variables for mojave function
 var mojaveHour = 0;
 var mojaveMinute = 0;
+var mojaveRule = new schedule.RecurrenceRule();
+
+//Functions that determines a new random time for Mojave meme
+function mojaveTime() {
+  mojaveHour = Math.floor((Math.random() * 23) + 0);
+  mojaveMinute = Math.floor((Math.random() * 60) + 0);
+  mojaveRule.dayOfWeek = 4;
+  mojaveRule.hour = mojaveHour;
+  mojaveRule.minute = mojaveMinute;
+}
+
+//Executes mojaveTime function
+mojaveTime()
 
 //Declares function that calculates dice total
 function diceCalculator(diceAmount, diceNumber) {
@@ -20,18 +36,6 @@ function diceCalculator(diceAmount, diceNumber) {
     diceTotalTemp += Math.floor((Math.random() * diceNumber) + 1);
   }
   return diceTotalTemp;
-}
-
-//Defines the mojave rule recurrence
-var mojaveRule = new schedule.RecurrenceRule();
-mojaveRule.dayOfWeek = 4;
-mojaveRule.hour = Math.floor((Math.random() * 23) + 0);
-mojaveRule.minute = Math.floor((Math.random() * 60) + 0);
-
-//Functions that determines a new random time for Mojave meme
-function mojaveTime() {
-  mojaveHour = Math.floor((Math.random() * 23) + 0);
-  mojaveMinute = Math.floor((Math.random() * 60) + 0);
 }
 
 //Sends startup message when fired
@@ -56,7 +60,7 @@ client.on('message', message => {
 
     //Responds when bot is criticized
     if (message.content.toLowerCase().startsWith('bad boi')) {
-      message.channel.send(':ChillBinch:');
+      message.channel.send('<:ChillBinch:248943253221670923>');
     }
 
     //Ignores message if it does not start with prefix
@@ -264,13 +268,13 @@ setInterval(() => {
 }, 900000);
 
 var frogSchedule = schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 3}, function(){
-  client.channels.get('140946564901240832').send("", {
+  client.channels.get(discordChannel[3]).send("", {
     file: "https://i.imgur.com/SPDD3R2.jpg"
   });
 });
 
 var mojaveSchedule = schedule.scheduleJob(mojaveRule, function(){
-  client.channels.get('99249836628406272').send("Patrolling the Mojave almost makes you wish for a nuclear winter.");
+  client.channels.get(discordChannel[Math.floor(Math.random() * myArray.length)]).send("Patrolling the Mojave almost makes you wish for a nuclear winter.");
 });
 
 var mojaveReset = schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 5}, function(){
