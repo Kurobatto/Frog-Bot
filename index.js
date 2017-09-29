@@ -53,6 +53,9 @@ client.on('message', message => {
     //Saves the message's content as a string
     var messageString = message.content;
 
+    //Ignores message if message is sent by another bot or itself
+    if (message.author.bot) return;
+
     //Responds when bot is praised
     if (message.content.toLowerCase().startsWith('good boi')) {
       message.channel.send('Ribbit :frog:');
@@ -65,9 +68,6 @@ client.on('message', message => {
 
     //Ignores message if it does not start with prefix
     if (!message.content.startsWith(prefix)) return;
-
-    //Ignores message if message is sent by another bot or itself
-    if (message.author.bot) return;
 
     //Displays the amount of time it took in miliseconds to receive command and to respond
     if (message.content.toLowerCase() === (prefix + 'ping')) {
