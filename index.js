@@ -17,6 +17,10 @@ var mojaveHour = 0;
 var mojaveMinute = 0;
 var mojaveRule = new schedule.RecurrenceRule();
 
+//Declares regexps for difference of two squares command
+var squaresString = new RegExp(/^~squares\sd+/i);
+var squaresSplit = new RegExp(/[^0123456789]+);
+
 //Functions that determines a new random time for Mojave meme
 function mojaveTime() {
   mojaveHour = Math.floor((Math.random() * 23) + 0);
@@ -240,6 +244,28 @@ client.on('message', message => {
 
       //Sends the dice total
       message.channel.send(diceTotalString);
+    } else
+
+    //Tests to see if the command is in the proper format
+    if (squaresString.test(messageString)) {
+      //Splits the command into an array
+      var messageArray = message.content.split(squaresSplit);
+
+      //Converts the number in the command to a variable
+      var targetNumber = parseInt(messageArray[1]);
+
+      //Tests to make sure the number is odd
+      if (targetNumber % 2 == 1) {
+        //Calculates the squares of the number
+        var firstSquare = ((targetNumber - 1) / 2) + 1;
+        var secondSquare = (targetNumber - 1) / 2;
+
+        //Sends the difference of squares for the number
+        message.channel.send(firstSquare + "^2 - " + secondSquare + "^2 = " + targetNumber);
+      } else {
+        //Sends error message if number is not odd
+        message.channel.send('Please make sure your number is odd');
+      }
     } else
 
     //Debug message
