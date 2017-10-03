@@ -263,7 +263,7 @@ client.on('message', message => {
         //Adds decimal places to numbers
         var targetNumberString = targetNumber.toLocaleString();
         var firstSquareString = firstSquare.toLocaleString();
-        var secondSquareString secondSquare.toLocaleString();
+        var secondSquareString = secondSquare.toLocaleString();
 
         //Sends the difference of squares for the number
         message.channel.send(firstSquareString + "^2 - " + secondSquareString + "^2 = " + targetNumberString);
@@ -278,9 +278,7 @@ client.on('message', message => {
 });
 
 //Tells the bot what token to login with
-client.login('MzUwODcwMTk2Mzk3MDE1MDQw.DLWd5Q.M7kqaxjghW7k6ujnB_J07KaQDv8');
-
-//process.env.BotToken
+client.login(process.env.BotToken);
 
 //Web application portion that ensures Heroku never falls asleep
 const express = require('express');
