@@ -18,7 +18,7 @@ var mojaveMinute = 0;
 var mojaveRule = new schedule.RecurrenceRule();
 
 //Declares regexps for difference of two squares command
-var squaresString = new RegExp(/^~squares\sd+/i);
+var squaresString = new RegExp(/^~squares\s\d+/i);
 var squaresSplit = new RegExp(/[^0123456789]+);
 
 //Functions that determines a new random time for Mojave meme
