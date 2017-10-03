@@ -19,7 +19,7 @@ var mojaveRule = new schedule.RecurrenceRule();
 
 //Declares regexps for difference of two squares command
 var squaresString = new RegExp(/^~squares\s\d+/i);
-var squaresSplit = new RegExp(/[^0123456789]+);
+var squaresSplit = new RegExp(/[^0123456789]+/);
 
 //Functions that determines a new random time for Mojave meme
 function mojaveTime() {
@@ -260,8 +260,13 @@ client.on('message', message => {
         var firstSquare = ((targetNumber - 1) / 2) + 1;
         var secondSquare = (targetNumber - 1) / 2;
 
+        //Adds decimal places to numbers
+        var targetNumberString = targetNumber.toLocaleString();
+        var firstSquareString = firstSquare.toLocaleString();
+        var secondSquareString secondSquare.toLocaleString();
+
         //Sends the difference of squares for the number
-        message.channel.send(firstSquare + "^2 - " + secondSquare + "^2 = " + targetNumber);
+        message.channel.send(firstSquareString + "^2 - " + secondSquareString + "^2 = " + targetNumberString);
       } else {
         //Sends error message if number is not odd
         message.channel.send('Please make sure your number is odd');
@@ -273,7 +278,9 @@ client.on('message', message => {
 });
 
 //Tells the bot what token to login with
-client.login(process.env.BotToken);
+client.login('MzUwODcwMTk2Mzk3MDE1MDQw.DLWd5Q.M7kqaxjghW7k6ujnB_J07KaQDv8');
+
+//process.env.BotToken
 
 //Web application portion that ensures Heroku never falls asleep
 const express = require('express');
