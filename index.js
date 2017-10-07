@@ -5,9 +5,7 @@ const schedule = require('node-schedule');
 const http = require('http');
 
 //Tells the bot what token to login with
-client.login('MzUwODcwMTk2Mzk3MDE1MDQw.DLqfNQ.WADjkj-StA3hOJPbesugFZWidno');
-
-//process.env.BotToken
+client.login(process.env.BotToken);
 
 //Sends startup message when fired
 client.on('ready',() => {
