@@ -34,7 +34,7 @@ var squaresSplit = new RegExp(/[^0123456789]+/);
 
 //Declares regexps for rock paper scissors commands
 var rpsString = new RegExp(/^~rps\s[a-z]+/i);
-var rpsSplit = new RegExp(/[^a-z]+[^A-Z]+/)
+var rpsSplit = new RegExp(/[^a-zA-Z]+/)
 
 //Functions that determines a new random time for Mojave meme
 function mojaveTime() {
