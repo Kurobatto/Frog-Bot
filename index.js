@@ -279,15 +279,16 @@ client.on('message', message => {
       //Splits the message into an array
       var messageArray = message.content.split(rpsSplit);
 
-      //Saves input into a string
+      //Saves input into a string, then converts it to lowercase
       var playerChoiceString = messageArray[2];
+      playerChoiceString = playerChoiceString.toLowerCase();
 
       //Checks to see if the player put a proper attack
-      if (playerChoiceString.toLowerCase() === 'rock' || playerChoiceString.toLowerCase() === 'paper' || playerChoiceString.toLowerCase() === 'scissors'){
+      if (playerChoiceString === 'rock' || playerChoiceString === 'paper' || playerChoiceString === 'scissors'){
         //Converts playing act into number
-        if (playerChoiceString.toLowerCase() === 'rock') {
+        if (playerChoiceString === 'rock') {
           playerChoice = 0;
-        } else if (playerChoiceString.toLowerCase() === 'paper') {
+        } else if (playerChoiceString === 'paper') {
           playerChoice = 1;
         } else {
           playerChoice = 2;
