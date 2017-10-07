@@ -274,8 +274,7 @@ client.on('message', message => {
     if (rpsString.test(messageString)) {
       //Declares player choice variable
       var playerchoice;
-      var botchoice = math.floor((math.random() * 2) + 0);
-
+      var botchoice = Math.floor((Math.random() * 2) + 0);
 
       //Splits the message into an array
       var messageArray = message.content.split(rpsSplit);
