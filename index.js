@@ -2,6 +2,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const schedule = require('node-schedule');
+const http = require('http');
 
 //Tells the bot what token to login with
 client.login('MzUwODcwMTk2Mzk3MDE1MDQw.DLqfNQ.WADjkj-StA3hOJPbesugFZWidno');
