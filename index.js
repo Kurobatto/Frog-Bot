@@ -282,6 +282,7 @@ client.on('message', message => {
       //Saves input into a string, then converts it to lowercase
       var playerChoiceString = messageArray[2];
       playerChoiceString = playerChoiceString.toLowerCase();
+      console.log(playerChoiceString + " " + messageArray[2]);
 
       //Checks to see if the player put a proper attack
       if (playerChoiceString === 'rock' || playerChoiceString === 'paper' || playerChoiceString === 'scissors'){
