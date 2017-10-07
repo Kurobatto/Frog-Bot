@@ -34,7 +34,7 @@ var squaresSplit = new RegExp(/[^0123456789]+/);
 
 //Declares regexps for rock paper scissors commands
 var rpsString = new RegExp(/^~rps\s[a-z]+/i);
-var rpsSplit = new RegExp(/[^a-z]+/)
+var rpsSplit = new RegExp(/[^a-z]+[^A-Z]+/)
 
 //Functions that determines a new random time for Mojave meme
 function mojaveTime() {
@@ -282,7 +282,6 @@ client.on('message', message => {
       //Saves input into a string, then converts it to lowercase
       var playerChoiceString = messageArray[2];
       playerChoiceString = playerChoiceString.toLowerCase();
-      console.log(playerChoiceString + " " + messageArray[2]);
 
       //Checks to see if the player put a proper attack
       if (playerChoiceString === 'rock' || playerChoiceString === 'paper' || playerChoiceString === 'scissors'){
