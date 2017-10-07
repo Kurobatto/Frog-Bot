@@ -32,8 +32,13 @@ var mojaveRule = new schedule.RecurrenceRule();
 var squaresString = new RegExp(/^~squares\s\d+/i);
 var squaresSplit = new RegExp(/[^0123456789]+/);
 
+//Declares regexps for rock paper scissors commands
+var rpsString = new RegExp(/^~rps\s[a-z]+/i);
+var rpsSplit = new RegExp(/[^a-z]+/)
+
 //Functions that determines a new random time for Mojave meme
 function mojaveTime() {
+  //Sets time for the mojave meme
   mojaveHour = Math.floor((Math.random() * (23 - 0 + 1)) + 0);
   mojaveMinute = Math.floor((Math.random() * (59 - 0 + 1)) + 0);
   mojaveRule.dayOfWeek = 4;
@@ -184,17 +189,11 @@ client.on('message', message => {
         for (i = 1; i < (Math.floor((messageArray.length + 1) / 2)); i++) {
           if (messageArray[(i + i)] == '+') {
             diceTotal += parseInt(messageArray[(i + i + 1)]);
-          } else
-
-          if (messageArray[(i + i)] == '-') {
+          } else if (messageArray[(i + i)] == '-') {
             diceTotal -= parseInt(messageArray[(i + i + 1)]);
-          } else
-
-          if (messageArray[(i + i)] == '*') {
+          } else if (messageArray[(i + i)] == '*') {
             diceTotal *= parseInt(messageArray[(i + i + 1)]);
-          } else
-
-          if (messageArray[(i + i)] == '/') {
+          } else if (messageArray[(i + i)] == '/') {
             diceTotal = Math.round(diceTotal / parseInt(messageArray[(i + i + 1)]));
           } else {
             message.channel.send('Please only use basic arithmetic operators.');
@@ -225,17 +224,11 @@ client.on('message', message => {
         for (i = 1; i < (Math.floor((messageArray.length) / 2)); i++) {
           if (messageArray[(i + i + 1)] == '+') {
             diceTotal += parseInt(messageArray[(i + i + 2)]);
-          } else
-
-          if (messageArray[(i + i + 1)] == '-') {
+          } else if (messageArray[(i + i + 1)] == '-') {
             diceTotal -= parseInt(messageArray[(i + i + 2)]);
-          } else
-
-          if (messageArray[(i + i + 1)] == '*') {
+          } else if (messageArray[(i + i + 1)] == '*') {
             diceTotal *= parseInt(messageArray[(i + i + 2)]);
-          } else
-
-          if (messageArray[(i + i + 1)] == '/') {
+          } else  if (messageArray[(i + i + 1)] == '/') {
             diceTotal = Math.round(diceTotal / parseInt(messageArray[(i + i + 2)]));
           } else {
             message.channel.send('Please only use basic arithmetic operators.');
@@ -275,6 +268,63 @@ client.on('message', message => {
       } else {
         //Sends error message if number is not odd
         message.channel.send('Please make sure your number is odd');
+      }
+    } else
+
+    if (rpsString.test(messageString)) {
+      //Declares player choice variable
+      var playerchoice;
+      var botchoice = math.floor((math.random() * 2) + 0);
+
+
+      //Splits the message into an array
+      var messageArray = message.content.split(rpsSplit);
+
+      //Checks to see if the player put a proper attack
+      if (messageArray[2].toLowerCase() === 'rock' || messageArray[2].toLowerCase() === 'paper' || messageArray[2].toLowerCase() === 'scissors'){
+        //Converts playing act into number
+        if (messageArray[2].toLowerCase() === 'rock') {
+          playerchoice = 0;
+        } else if (messageArray[2].toLowerCase() === 'paper') {
+          playerchoice = 1;
+        } else {
+          playerchoice = 2;
+        }
+
+        //Sends the bot's attack
+        if (botchoice == 0) {
+          message.channel.send('Rock.');
+        } else if (botchoice == 1){
+          message.channel.send('Paper.');
+        } else {
+          message.channel.send('Scissors.');
+        }
+
+        //Calculates who won
+        if (playerchoice == botchoice) {
+          message.reply('It was a tie!');
+        } else if (playerchoice == 0) {
+          if (botchoice == 1) {
+            message.reply('You lose!');
+          } else {
+            message.reply('You win!');
+          }
+        } else if (playerchoice == 1) {
+          if (botchoice == 0) {
+            message.reply('You win!');
+          } else {
+            message.reply('You lost!');
+          }
+        } else {
+          if (botchoice == 0) {
+            message.reply('You lost!');
+          } else {
+            message.reply('You win!');
+          }
+        }
+      } else {
+        //Sends error message if the proper command was not chosen
+        message.channel.send("Error: Please play with either rock, paper, or scissors");
       }
     } else
 
