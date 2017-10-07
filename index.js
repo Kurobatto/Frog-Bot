@@ -273,21 +273,24 @@ client.on('message', message => {
 
     if (rpsString.test(messageString)) {
       //Declares player choice variable
-      var playerchoice;
+      var playerChoice;
       var botchoice = Math.floor((Math.random() * 2) + 0);
 
       //Splits the message into an array
       var messageArray = message.content.split(rpsSplit);
 
+      //Saves input into a string
+      var playerChoiceString = messageArray[2];
+
       //Checks to see if the player put a proper attack
-      if (messageArray[2].toLowerCase() === 'rock' || messageArray[2].toLowerCase() === 'paper' || messageArray[2].toLowerCase() === 'scissors'){
+      if (playerChoiceString.toLowerCase() === 'rock' || playerChoiceString.toLowerCase() === 'paper' || playerChoiceString.toLowerCase() === 'scissors'){
         //Converts playing act into number
-        if (messageArray[2].toLowerCase() === 'rock') {
-          playerchoice = 0;
-        } else if (messageArray[2].toLowerCase() === 'paper') {
-          playerchoice = 1;
+        if (playerChoiceString.toLowerCase() === 'rock') {
+          playerChoice = 0;
+        } else if (playerChoiceString.toLowerCase() === 'paper') {
+          playerChoice = 1;
         } else {
-          playerchoice = 2;
+          playerChoice = 2;
         }
 
         //Sends the bot's attack
@@ -300,15 +303,15 @@ client.on('message', message => {
         }
 
         //Calculates who won
-        if (playerchoice == botchoice) {
+        if (playerChoice == botchoice) {
           message.reply('It was a tie!');
-        } else if (playerchoice == 0) {
+        } else if (playerChoice == 0) {
           if (botchoice == 1) {
             message.reply('You lose!');
           } else {
             message.reply('You win!');
           }
-        } else if (playerchoice == 1) {
+        } else if (playerChoice == 1) {
           if (botchoice == 0) {
             message.reply('You win!');
           } else {
