@@ -6,7 +6,7 @@ const http = require("http");
 const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
 
-//Tracks points for
+//Tracks points for leveling
 const pointProvider = new EnmapLevel({name: "points"});
 client.points = new Enmap({provider: pointProvider});
 
