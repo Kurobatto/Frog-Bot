@@ -8,7 +8,7 @@ const EnmapLevel = require("enmap-level");
 
 //Tracks points for
 const pointProvider = new EnmapLevel({name: "points"});
-client.points = new Enmap({provider: pointProvider});
+this.points = new Enmap({provider: pointProvider});
 
 client.pointsMonitor = (client, message) => {
   //Returns if message is dm
