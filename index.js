@@ -3,6 +3,36 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const schedule = require("node-schedule");
 const http = require("http");
+const Enmap = require("enmap");
+const EnmapLevel = require("enmap-level");
+
+//Tracks points for
+const pointProvider = new EnmapLevel({name: "points"});
+this.points = new Enmap({provider: pointProvider});
+
+client.pointsMonitor = (client, message) => {
+  //Returns if message is dm
+  if (message.channel.type !=="text") return;
+
+  //Returns if it is a bot command
+  if (message.content.startsWith("~")) return;
+
+  //Creates a new score tally if the user doesn't have one, then adds points
+  const score = client.points.get(message.author.id) || { points: 0, level: 0 };
+  score.points++;
+
+  //Calculates your points for your level
+  const curLevel = Math.floor(0.1 * Math.sqrt(score.points));
+
+  //Checks to see if you have enough points to go up a level
+  if (score.level < curLevel) {
+    message.reply(`Congratulations, you leveled up to level **${curLevel}**! Ribbit :frog:`);
+    score.level = curLevel;
+  }
+
+  //Saves the new score
+  client.points.set(message.author.id, score);
+};
 
 //Tells the bot what token to login with
 client.login(process.env.BotToken);
@@ -15,7 +45,7 @@ client.on("ready",() => {
 });
 
 //Defines the array for each discord channel
-var discordChannel = ["98910743633608704", "99249836628406272", "140946564901240832", "99249863128002560", "200384608745947137", "355098490013220895", "145013323019059200", "308052854227075074", "208739103674466304", "263868020059799552", "348892634250739712", "106046995860332544", "106049853494198272", "276383014890504193", "268216162452635649", "139408808031027200", "192855751063109632"];
+var discordChannel = ["98910743633608704", "99249836628406272", "140946564901240832", "99249863128002560", "200384608745947137", "145013323019059200", "308052854227075074", "208739103674466304", "263868020059799552", "348892634250739712", "106046995860332544", "106049853494198272", "276383014890504193", "268216162452635649", "139408808031027200", "192855751063109632", "368823287419240458"];
 
 //Saves two alternative dice rolling commands
 var diceString = new RegExp(/^~r\s\d+d\d+/i);
@@ -69,6 +99,9 @@ client.on("message", message => {
 
   //Ignores message if message is sent by another bot or itself
   if (message.author.bot) return;
+
+  //Sends control to pointsMonitor function
+  client.pointsMonitor(client, message);
 
   //Responds when bot is praised
   if (message.content.toLowerCase().startsWith("good boi")) {
@@ -326,6 +359,16 @@ client.on("message", message => {
       //Sends error message if the proper command was not chosen
       message.channel.send("Error: Please play with either rock, paper, or scissors");
     }
+  } else
+
+  if (message.content.toLowerCase() === (prefix + "points")) {
+    const scorePoints = client.points.get(message.author.id).points;
+    !scorePoints ? message.channel.send("You have no points yet.") : message.channel.send(`You have ${scorePoints} points!`);
+  } else
+
+  if (message.content.toLowerCase() === (prefix + "level")) {
+    const scoreLevel = client.points.get(message.author.id).level;
+    !scoreLevel ? message.channel.send("You have no levels yet.") : message.channel.send(`You are currently level ${scoreLevel}!`);
   } else
 
     //Debug message
