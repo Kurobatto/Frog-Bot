@@ -362,12 +362,12 @@ client.on("message", message => {
   } else
 
   if (message.content.toLowerCase() === (prefix + "points")) {
-    const scorePoints = client.points.get(message.author.id).points;
+    var scorePoints = client.points.get(message.author.id).points;
     !scorePoints ? message.channel.send("You have no points yet.") : message.channel.send(`You have ${scorePoints} points!`);
   } else
 
   if (message.content.toLowerCase() === (prefix + "level")) {
-    const scoreLevel = client.points.get(message.author.id).level;
+    var scoreLevel = client.points.get(message.author.id).level;
     !scoreLevel ? message.channel.send("You have no levels yet.") : message.channel.send(`You are currently level ${scoreLevel}!`);
   } else
 
