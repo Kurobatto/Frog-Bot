@@ -4,7 +4,7 @@
   "description": "My personal discord bot used for adding functions to my servers",
   "main": "index.js",
   "engines": {
-    "node": "6.11.2",
+    "node": "8.7.0",
     "npm": "3.10.10"
   },
   "scripts": {
