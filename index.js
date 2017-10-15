@@ -22,7 +22,7 @@ client.pointsMonitor = (client, message) => {
   score.points++;
 
   //Calculates your points for your level
-  const curLevel = Math.floor(0.1 * Math.sqrt(score.points));
+  const curLevel = Math.floor(0.3 * Math.sqrt(score.points));
 
   //Checks to see if you have enough points to go up a level
   if (score.level < curLevel) {
