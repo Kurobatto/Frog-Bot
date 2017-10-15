@@ -4,13 +4,11 @@ const client = new Discord.Client();
 const schedule = require("node-schedule");
 const http = require("http");
 const Enmap = require("enmap");
-console.log("Made it this far");
 const EnmapLevel = require("enmap-level");
-console.log("Made it this far here too");
 
 //Tracks points for
 const pointProvider = new EnmapLevel({name: "points"});
-this.points = new Enmap({provider: pointProvider});
+client.points = new Enmap({provider: pointProvider});
 
 client.pointsMonitor = (client, message) => {
   //Returns if message is dm
@@ -37,9 +35,7 @@ client.pointsMonitor = (client, message) => {
 };
 
 //Tells the bot what token to login with
-client.login("MzUwODcwMTk2Mzk3MDE1MDQw.DMVBZg.yECjmxRruGRHZuxIxoaq9wb3CoY");
-
-//process.env.BotToken
+client.login(process.env.BotToken);
 
 //Sends startup message when fired
 client.on("ready",() => {
