@@ -37,7 +37,9 @@ client.pointsMonitor = (client, message) => {
 };
 
 //Tells the bot what token to login with
-client.login(process.env.BotToken);
+client.login("MzUwODcwMTk2Mzk3MDE1MDQw.DMVBZg.yECjmxRruGRHZuxIxoaq9wb3CoY");
+
+//process.env.BotToken
 
 //Sends startup message when fired
 client.on("ready",() => {
