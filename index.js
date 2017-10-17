@@ -19,7 +19,7 @@ client.pointsMonitor = (client, message) => {
   if (message.content.startsWith("~")) return;
 
   //Creates a new score tally if the user doesn't have one, then adds points
-  const score = client.points.get(message.author.id) || { points: 0, level: 0 };
+  const score = client.points.get((message.author.id + message.guild.id)) || { points: 0, level: 0 };
   score.points++;
 
   //Calculates your points for your level
@@ -27,12 +27,17 @@ client.pointsMonitor = (client, message) => {
 
   //Checks to see if you have enough points to go up a level
   if (score.level < curLevel) {
-    message.reply(`Congratulations, you leveled up to level **${curLevel}**! Ribbit :frog:`);
+    //Sends it in specific channel if chill chat, does same channel as user if not
+    if (message.guild.id == "98910743633608704") {
+      client.channels.get("145013323019059200").send(`Congratulations, <@${message.author.id}>, you leveled up to level **${curLevel}**! Ribbit :frog:`);
+    } else {
+      message.channel.send(`Congratulations, <@${message.author.id}>, you leveled up to level **${curLevel}**! Ribbit :frog:`);
+    }
     score.level = curLevel;
   }
 
   //Saves the new score
-  client.points.set(message.author.id, score);
+  client.points.set((message.author.id + message.guild.id), score);
 };
 
 //Tells the bot what token to login with
@@ -415,7 +420,7 @@ setInterval(() => {
 }, 900000);
 
 schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 3}, function(){
-  client.channels.get(discordChannel[discordChannel.indexOf("140946564901240832")]).send("", {
+  client.channels.get("140946564901240832").send("", {
     file: "https://i.imgur.com/SPDD3R2.jpg"
   });
 });
