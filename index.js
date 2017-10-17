@@ -5,6 +5,7 @@ const schedule = require("node-schedule");
 const http = require("http");
 const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
+const settings = require("./settings.json");
 
 //Tracks points for leveling
 const pointProvider = new EnmapLevel({name: "points"});
@@ -35,7 +36,7 @@ client.pointsMonitor = (client, message) => {
 };
 
 //Tells the bot what token to login with
-client.login(process.env.BotToken);
+client.login(settings.token);
 
 //Sends startup message when fired
 client.on("ready",() => {
