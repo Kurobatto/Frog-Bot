@@ -391,6 +391,7 @@ client.on("message", message => {
     try {
       const scorePoints = client.points.get((message.author.id + message.guild.id)).points;
       !scorePoints ? message.channel.send("You have no points yet.") : message.channel.send(`You have ${scorePoints} points!`);
+      cooldown = 0;
     } catch(err) {
       message.channel.send("Please send a non-command message first before checking points.");
     }
@@ -400,6 +401,7 @@ client.on("message", message => {
     try {
       const scoreLevel = client.points.get((message.author.id + message.guild.id)).level;
       !scoreLevel ? message.channel.send("You have no levels yet.") : message.channel.send(`You are currently level ${scoreLevel}!`);
+      cooldown = 0;
     } catch(err) {
       message.channel.send("Please send a non-command message first before checking points.");
     }
