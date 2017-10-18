@@ -11,16 +11,36 @@ const settings = require("./settings.json");
 const pointProvider = new EnmapLevel({name: "points"});
 client.points = new Enmap({provider: pointProvider});
 
+//Declares two variables for determining cooldown
+var cooldown = 0;
+var lastUser;
+
 client.pointsMonitor = (client, message) => {
+  //Creates a new score tally if the user doesn't have one, or gets their current points
+  const score = client.points.get((message.author.id + message.guild.id)) || { points: 0, level: 0 };
+
   //Returns if message is dm
   if (message.channel.type !=="text") return;
 
   //Returns if it is a bot command
   if (message.content.startsWith("~")) return;
 
-  //Creates a new score tally if the user doesn't have one, then adds points
-  const score = client.points.get((message.author.id + message.guild.id)) || { points: 0, level: 0 };
-  score.points++;
+  //Checks to see if the user is on cooldown
+  if (cooldown < 5) {
+    //Adds points
+    score.points++;
+  }
+
+  if (lastUser == message.author.id || !lastUser) {
+    //Adds to cooldown
+    cooldown++;
+  } else {
+    //Resets cooldown
+    cooldown = 0;
+  }
+
+  //Sets the last user to speak
+  lastUser = message.author.id;
 
   //Calculates your points for your level
   const curLevel = Math.floor(0.3 * Math.sqrt(score.points));
