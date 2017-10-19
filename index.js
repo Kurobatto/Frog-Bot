@@ -70,7 +70,7 @@ client.on("ready",() => {
   client.user.setPresence({ status: "online", game: { name: "on a unicycle", type: 0 } });
 });
 
-//Defines the array for each discord channel, and colors
+//Defines the array for each discord channel, names, and colors
 var discordChannel = ["98910743633608704", "99249836628406272", "140946564901240832", "99249863128002560", "200384608745947137", "145013323019059200", "308052854227075074", "208739103674466304", "263868020059799552", "348892634250739712", "106046995860332544", "106049853494198272", "276383014890504193", "268216162452635649", "139408808031027200", "192855751063109632", "368823287419240458"];
 var colorModifiers = ["Alice", "Antique", "Blanched", "Bluish", "Burly", "Cadet", "Cornflower", "Dark", "Olive", "Sea", "Slate", "Deep", "Sky", "Dim", "Dodger", "Fiery", "Floral", "Forest","Ghost","Golden",
   "Green", "Hot", "Indian", "Lavender", "Lawn", "Lemon", "Light", "Steel", "Lime", "Medium", "Aqua", "Spring", "Violet", "Midnight", "Mint", "Misty", "Navajo", "Old", "Olive", "Orange",
@@ -78,6 +78,9 @@ var colorModifiers = ["Alice", "Antique", "Blanched", "Bluish", "Burly", "Cadet"
 var colorNames = ["Blue","White","Aqua","Marine","Azure","Beige","Bisque","Black","Almond","Violet","Brown","Wood","Chartreuse","Chocolate","Coral","Cornsilk","Crimson","Cyan","Gray","Green","Khaki","Magenta","Orange","Orchid"
   ,"Red","Salmon","Turquoise","Pink","Brick","Fuchsia","Gainsboro","Gold","Honeydew","Indigo","Ivory","Lavender","Chiffon","Lime","Linen","Magenta","Maroon","Purple","Mint","Rose","Moccasin","Navy","Lace","Olive","Drab"
   ,"Papaya", "Whip", "Puff","Peru","Plum","Shell","Sienna","Silver","Snow","Tan","Teal","Thistle","Tomato","Wheat","Smoke"];
+var randomNouns = ["Square", "Cemetery", "Cow", "Communism", "Soup", "Coast", "Flower", "Crime", "Ice", "Power", "Spider", "Potato", "Economics", "Sand", "Oil", "Eyes", "Tongue", "Engine", "Bomb",
+  "Turkey", "Committee", "Theory", "Pollution", "Society", "Wine", "Bee", "Fog", "Earthquake", "Celibacy", "Spark", "Division", "Sail", "Jelly", "Locket", "Undefined", "Popcorn", "Yak", "Zebra", "Plane"
+  , "Quicksand", "Capitalism", "Chess", "Fowl", "Spring", "Sugar", "Road", "Grandfather", "Mazie", "Moon", "Skirt"];
 
 //Saves two alternative dice rolling commands
 var diceString = new RegExp(/^~r\s\d+d\d+/i);
@@ -414,10 +417,14 @@ client.on("message", message => {
   } else
 
   if (message.content.toLowerCase() === (prefix + "mazie")) {
-    if (Math.floor(Math.random * 2) == 1) {
-      message.channel.send(colorModifiers[Math.floor(Math.random() * (colorModifiers.length + 1))] + "-" + colorModifiers[Math.floor(Math.random() * (colorModifiers.length + 1))] + "-" + colorNames[Math.floor(Math.random() * (colorNames.length + 1))]);
+    var wildCard = Math.floor(Math.random() * 3);
+
+    if (wildCard == 1) {
+      message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)]);
+    } else if (wildCard == 0){
+      message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)]);
     } else {
-      message.channel.send(colorModifiers[Math.floor(Math.random() * (colorModifiers.length + 1))] + "-" + colorNames[Math.floor(Math.random() * (colorNames.length + 1))]);
+      message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)] + " " + randomNouns[Math.floor(Math.random() * randomNouns.length)]);
     }
   } else
 
