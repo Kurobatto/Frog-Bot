@@ -99,7 +99,11 @@ var squaresSplit = new RegExp(/[^0123456789]+/);
 
 //Declares regexps for rock paper scissors commands
 var rpsString = new RegExp(/^~rps\s[a-z]+/i);
-var rpsSplit = new RegExp(/[^a-zA-Z]+/);
+var wordSplit = new RegExp(/[^a-zA-Z]+/);
+
+//Declares regexp for Mazie command
+var mazieString = new RegExp(/^~mazie\s[a-z]+/i);
+
 
 //Functions that determines a new random time for Mojave meme
 function mojaveTime() {
@@ -342,7 +346,7 @@ client.on("message", message => {
     var botchoice = Math.floor((Math.random() * 2) + 0);
 
     //Splits the message into an array
-    var rpsMessageArray = message.content.split(rpsSplit);
+    var rpsMessageArray = message.content.split(wordSplit);
 
     //Saves input into a string, then converts it to lowercase
     var playerChoiceString = rpsMessageArray[2];
@@ -416,15 +420,30 @@ client.on("message", message => {
     }
   } else
 
-  if (message.content.toLowerCase() === (prefix + "mazie")) {
-    var wildCard = Math.floor(Math.random() * 3);
+  if (message.content.toLowerCase().startsWith(prefix + "mazie")) {
+    if (mazieString.test(messageString)) {
+      var mazieMessageArray = message.content.split(wordSplit);
+      var userChoice = mazieMessageArray[2];
 
-    if (wildCard == 1) {
-      message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)]);
-    } else if (wildCard == 0){
-      message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)]);
+      if (userChoice == "normal" || userChoice == "double" || userChoice == "noun") {
+        if (userChoice == "normal") {
+          message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)]);
+        } else if (userChoice == "double") {
+          message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)]);
+        } else {
+          message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)] + " " + randomNouns[Math.floor(Math.random() * randomNouns.length)]);
+        }
+      }
     } else {
-      message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)] + " " + randomNouns[Math.floor(Math.random() * randomNouns.length)]);
+      var wildCard = Math.floor(Math.random() * 3);
+
+      if (wildCard == 0) {
+        message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)]);
+      } else if (wildCard == 1){
+        message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)]);
+      } else {
+        message.channel.send(colorModifiers[Math.floor(Math.random() * colorModifiers.length)] + "-" + colorNames[Math.floor(Math.random() * colorNames.length)] + " " + randomNouns[Math.floor(Math.random() * randomNouns.length)]);
+      }
     }
   } else
 
