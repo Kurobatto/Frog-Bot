@@ -15,15 +15,15 @@ var cooldown = 0;
 var lastUser;
 
 client.pointsMonitor = (client, message) => {
-  //Creates a new score tally if the user doesn't have one, or gets their current points
-  const score = client.points.get((message.author.id + message.guild.id)) || { points: 0, level: 0 };
-
   //Returns if message is dm
-  if (message.channel.type !=="text") return;
+  if (message.channel.type !== "text") return;
 
   //Returns if it is a bot command
   if (message.content.startsWith("~")) return;
 
+  //Creates a new score tally if the user doesn't have one, or gets their current points
+  const score = client.points.get((message.author.id + message.guild.id)) || { points: 0, level: 0 };
+  
   //Checks to see if the user is on cooldown
   if (cooldown < 5) {
     //Adds points
