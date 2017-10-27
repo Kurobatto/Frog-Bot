@@ -373,24 +373,24 @@ client.on("message", message => {
 
       //Calculates who won
       if (playerChoice == botchoice) {
-        message.reply("It was a tie!");
+        message.channel.send("It was a tie!");
       } else if (playerChoice == 0) {
         if (botchoice == 1) {
-          message.reply("You lose!");
+          message.channel.send("You lose!");
         } else {
-          message.reply("You win!");
+          message.channel.send("You win!");
         }
       } else if (playerChoice == 1) {
         if (botchoice == 0) {
-          message.reply("You win!");
+          message.channel.send("You win!");
         } else {
-          message.reply("You lost!");
+          message.channel.send("You lost!");
         }
       } else {
         if (botchoice == 0) {
-          message.reply("You lost!");
+          message.channel.send("You lost!");
         } else {
-          message.reply("You win!");
+          message.channel.send("You win!");
         }
       }
     } else {
