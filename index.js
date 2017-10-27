@@ -2,7 +2,6 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const schedule = require("node-schedule");
-const http = require("http");
 const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
 const settings = require("./settings.json");
@@ -447,39 +446,13 @@ client.on("message", message => {
     }
   } else
 
+  if (message.content.toLowerCase() === (prefix + "uptime")) {
+    message.channel.send("100% uptime :frog:");
+  } else
+
     //Debug message
     message.channel.send("Error: Command not recognized.");
 });
-
-//Web application portion that ensures Heroku never falls asleep
-const express = require("express");
-const app = express();
-
-// set the port of our application
-// process.env.PORT lets the port be set by Heroku
-const port = process.env.PORT || 5000;
-
-// set the view engine to ejs
-app.set("view engine", "ejs");
-
-// make express look in the `public` directory for assets (css/js/img)
-app.use(express.static(__dirname + "/public"));
-
-// set the home page route
-app.get("/", (request, response) => {
-  // ejs render automatically looks in the views folder
-  response.render("index");
-});
-
-app.listen(port, () => {
-  // will echo "Our app is running on http://localhost:5000 when run locally"
-  console.log("Our app is running on http://localhost:" + port);
-});
-
-// pings server every 15 minutes to prevent dynos from sleeping
-setInterval(() => {
-  http.get("http://frogbotdiscord.herokuapp.com");
-}, 900000);
 
 schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 3}, function(){
   client.channels.get("140946564901240832").send("", {
