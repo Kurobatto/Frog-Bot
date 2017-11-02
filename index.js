@@ -6,6 +6,13 @@ const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
 const settings = require("./settings.json");
 
+//Tracks settings for users with bot
+const settingsProvider = new EnmapLevel({name: "settings"});
+client.settings = new Enmap({provider: settingsProvider});
+
+//Declares variables for werewolf game
+//var werewolfOn = false;
+
 //Tracks points for leveling
 const pointProvider = new EnmapLevel({name: "points"});
 client.points = new Enmap({provider: pointProvider});
@@ -14,7 +21,7 @@ client.points = new Enmap({provider: pointProvider});
 var cooldown = 0;
 var lastUser;
 
-client.pointsMonitor = (client, message) => {
+client.pointsMonitor = (client, message, settings) => {
   //Returns if message is dm
   if (message.channel.type !== "text") return;
 
@@ -23,7 +30,7 @@ client.pointsMonitor = (client, message) => {
 
   //Creates a new score tally if the user doesn't have one, or gets their current points
   const score = client.points.get((message.author.id + message.guild.id)) || { points: 0, level: 0 };
-  
+
   //Checks to see if the user is on cooldown
   if (cooldown < 5) {
     //Adds points
@@ -48,9 +55,17 @@ client.pointsMonitor = (client, message) => {
   if (score.level < curLevel) {
     //Sends it in specific channel if chill chat, does same channel as user if not
     if (message.guild.id == "98910743633608704") {
-      client.channels.get("145013323019059200").send(`Congratulations, <@${message.author.id}>, you leveled up to level **${curLevel}**! Ribbit :frog:`);
+      if (settings.mentions == true) {
+        client.channels.get("145013323019059200").send(`Congratulations, <@${message.author.id}>, you leveled up to level **${curLevel}**! Ribbit :frog:`);
+      } else {
+        client.channels.get("145013323019059200").send(`Congratulations, ${message.author.username}, you leveled up to level **${curLevel}**! Ribbit :frog:`);
+      }
     } else {
-      message.channel.send(`Congratulations, <@${message.author.id}>, you leveled up to level **${curLevel}**! Ribbit :frog:`);
+      if (settings.mentions == true) {
+        message.channel.send(`Congratulations, <@${message.author.id}>, you leveled up to level **${curLevel}**! Ribbit :frog:`);
+      } else {
+        message.channel.send(`Congratulations, ${message.author.username}, you leveled up to level **${curLevel}**! Ribbit :frog:`);
+      }
     }
     score.level = curLevel;
   }
@@ -98,11 +113,14 @@ var squaresSplit = new RegExp(/[^0123456789]+/);
 
 //Declares regexps for rock paper scissors commands
 var rpsString = new RegExp(/^~rps\s[a-z]+/i);
-var wordSplit = new RegExp(/[^a-zA-Z]+/);
+var wordSplit = new RegExp(/[^a-zA-Z]+/g);
 
 //Declares regexp for Mazie command
 var mazieString = new RegExp(/^~mazie\s[a-z]+/i);
 
+//Declares regexp for settings mentions command
+var settingsMentionsString = new RegExp(/^~settings\smentions\s[a-z]+/i);
+var getMentionsString = new RegExp(/^~settings\smentions/i);
 
 //Functions that determines a new random time for Mojave meme
 function mojaveTime() {
@@ -138,8 +156,11 @@ client.on("message", message => {
   //Ignores message if message is sent by another bot or itself
   if (message.author.bot) return;
 
+  //Gets the users settings
+  const userSettings = client.settings.get(message.author.id) || { mentions: true };
+
   //Sends control to pointsMonitor function
-  client.pointsMonitor(client, message);
+  client.pointsMonitor(client, message, userSettings);
 
   //Responds when bot is praised
   if (message.content.toLowerCase().startsWith("good boi")) {
@@ -450,8 +471,46 @@ client.on("message", message => {
     message.channel.send("100% uptime :frog:");
   } else
 
+  if (settingsMentionsString.test(messageString)) {
+    var mentionsMessageArray = message.content.split(wordSplit);
+    var userchoice = mentionsMessageArray[3];
+    userchoice = userchoice.toLowerCase();
+
+    if (userchoice == "on" && userSettings.mentions == false) {
+      userSettings.mentions = true;
+      client.settings.set((message.author.id), userSettings);
+      message.channel.send("Set mentions to: on.");
+    } else if (userchoice == "off" && userSettings.mentions == true) {
+      userSettings.mentions = false;
+      client.settings.set((message.author.id), userSettings);
+      message.channel.send("Set mentions to: off.");
+    } else {
+      message.channel.send("Error: Please only use the settings \"on\" and \"off\", and make sure your setting is not already on the desired setting.");
+    }
+  } else
+
+  if (getMentionsString.test(messageString)) {
+    if (userSettings.mentions == false) {
+      message.channel.send("Your current settings for mentions is: off.");
+    } else {
+      message.channel.send("Your current settings for mentions is: on.");
+    }
+  } else {
+
+
+
+  //Werewolf game command
+  //if (message.content.toLowerCase() === (prefix + "werewolf start" && !werewolfOn)) {
+    //Sets werewolf game status to true
+    //werewolfOn = true;
+
+    //message.channels.get("145013323019059200").send("A game of werewolf is starting! Type \"~werewolf join\" to join")
+
+
+  //} else {
     //Debug message
     message.channel.send("Error: Command not recognized.");
+  }
 });
 
 schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 3}, function(){
