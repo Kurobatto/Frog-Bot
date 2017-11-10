@@ -217,11 +217,13 @@ client.on("message", message => {
       client.channel.send("", {
         file: "http://i0.kym-cdn.com/photos/images/original/001/112/711/28e.jpg"
       });
+    } else if (message.content.toLowerCase().startsWith("awful") || message.content.toLowerCase().startsWith("stupid") || message.content.toLowerCase().startsWith("terrible") || message.content.toLowerCase().startsWith("worst") || message.content.toLowerCase().startsWith("worse")) {
+      message.channel.send("No bully!");
     } else {
       message.channel.send("Error: Boi not recognized");
     }
   }
-  
+
   //Ignores message if it does not start with prefix
   if (!message.content.startsWith(prefix)) return;
 
