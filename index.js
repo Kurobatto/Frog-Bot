@@ -122,6 +122,9 @@ var mazieString = new RegExp(/^~mazie\s[a-z]+/i);
 var settingsMentionsString = new RegExp(/^~settings\smentions\s[a-z]+/i);
 var getMentionsString = new RegExp(/^~settings\smentions/i);
 
+//Declares regexp for Boi commands
+var boiString = new RegExp(/^[a-z]+\sboi/i);
+
 //Functions that determines a new random time for Mojave meme
 function mojaveTime() {
   //Sets time for the mojave meme
@@ -150,6 +153,9 @@ var prefix = "~";
 
 //Fires on message send in any channel
 client.on("message", message => {
+  //Creates a variable to save the user"s message time
+  var startTime = message.createdTimestamp;
+
   //Saves the message"s content as a string
   var messageString = message.content;
 
@@ -162,24 +168,65 @@ client.on("message", message => {
   //Sends control to pointsMonitor function
   client.pointsMonitor(client, message, userSettings);
 
-  //Responds when bot is praised
-  if (message.content.toLowerCase().startsWith("good boi")) {
-    message.channel.send("Ribbit :frog:");
-  } else
-
-  //Responds when bot is criticized
-  if (message.content.toLowerCase().startsWith("bad boi")) {
-    message.channel.send("<:ChillBinch:248943253221670923>");
+  if (boiString.test(messageString)) {
+    if (message.content.toLowerCase().startsWith("good")) {
+      message.channel.send("Ribbit :frog:");
+    } else if (message.content.toLowerCase().startsWith("bad")) {
+      message.channel.send("<:ChillBinch:248943253221670923>");
+    } else if (message.content.toLowerCase().startsWith("adequate")) {
+      message.channel.send("Okay...");
+    } else if (message.content.toLowerCase().startsWith("howdy")) {
+      message.channel.send("yee haw");
+      client.user.setPresence({ status: "online", game: { name: "on a bull", type: 0 } });
+    } else if (message.content.toLowerCase().startsWith("normal")) {
+      message.channel.send("Ribbit");
+      client.user.setPresence({ status: "online", game: { name: "on a unicycle", type: 0 } });
+    } else if (message.content.toLowerCase().startsWith("furry")) {
+      message.channel.send("OwO What's this?");
+    } else if (message.content.toLowerCase().startsWith("kinky")) {
+      message.channel.send("Ewwwwwwwww.");
+    } else if (message.content.toLowerCase().startsWith("biker")) {
+      message.channel.send("Vroom vroom.");
+      client.user.setPresence({ status: "online", game: { name: "on a motorcycle", type: 0 } });
+    } else if (message.content.toLowerCase().startsWith("meme")) {
+      message.channel.send("It is wednesday my dudes.");
+    } else if (message.content.toLowerCase().startsWith("frog")) {
+      message.channel.send("Yes.");
+    } else if (message.content.toLowerCase().startsWith("loving")) {
+      message.channel.send(":heart:");
+    } else if (message.content.toLowerCase().startsWith("weird")) {
+      message.channel.send("?");
+    } else if (message.content.toLowerCase().startsWith("space")) {
+      message.channel.send("Pew pew");
+      client.user.setPresence({ status: "online", game: { name: "on a spaceship", type: 0 } });
+    } else if (message.content.toLowerCase().startsWith("magical") || message.content.toLowerCase().startsWith("magic")) {
+      message.channel.send("DO NOT THROW SOUL!");
+    } else if (message.content.toLowerCase().startsWith("sad")) {
+      message.channel.send(":frowning:");
+    } else if (message.content.toLowerCase().startsWith("test")) {
+      //Sends a placeholder message to compare times
+      message.channel.send(":ping_pong: Pong!").then(message => {
+        //Subtracts this message"s time by the user"s message to calculate ping
+        message.edit(`This message took \`${Math.round(message.createdTimestamp - startTime)} ms\` to reach you!`);
+        //Checks to see if there is a 0 or negative ping value, then displays error message
+        if (Math.round(message.createdTimestamp - startTime <= 0)) {
+          message.channel.send("Wait a minute, that can\"t be right...");
+        }
+      });
+    } else if (message.content.toLowerCase().startsWith("bye")) {
+      client.channel.send("", {
+        file: "http://i0.kym-cdn.com/photos/images/original/001/112/711/28e.jpg"
+      });
+    } else {
+      message.channel.send("Error: Boi not recognized");
+    }
   }
-
+  
   //Ignores message if it does not start with prefix
   if (!message.content.startsWith(prefix)) return;
 
   //Displays the amount of time it took in miliseconds to receive command and to respond
   if (message.content.toLowerCase() === (prefix + "ping")) {
-    //Creates a variable to save the user"s message time
-    var startTime = message.createdTimestamp;
-
     //Sends a placeholder message to compare times
     message.channel.send(":ping_pong: Pong!").then(message => {
       //Subtracts this message"s time by the user"s message to calculate ping
