@@ -219,6 +219,8 @@ client.on("message", message => {
       });
     } else if (message.content.toLowerCase().startsWith("awful") || message.content.toLowerCase().startsWith("stupid") || message.content.toLowerCase().startsWith("terrible") || message.content.toLowerCase().startsWith("worst") || message.content.toLowerCase().startsWith("worse")) {
       message.channel.send("No bully!");
+    } else if (message.content.toLowerCase().startsWith("horse")) {
+      message.channel.send("Neeeiiiiigggggghhhhh.");
     } else {
       message.channel.send("Error: Boi not recognized");
     }
@@ -562,7 +564,7 @@ client.on("message", message => {
   }
 });
 
-schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 3}, function(){
+schedule.scheduleJob({hour: 23, minute: 58, dayOfWeek: 2}, function(){
   client.channels.get("140946564901240832").send("", {
     file: "https://i.imgur.com/SPDD3R2.jpg"
   });
