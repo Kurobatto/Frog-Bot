@@ -221,6 +221,8 @@ client.on("message", message => {
       message.channel.send("No bully!");
     } else if (message.content.toLowerCase().startsWith("horse")) {
       message.channel.send("Neeeiiiiigggggghhhhh.");
+    } else if (message.content.toLowerCase().startsWith("boing")) {
+      message.channel.send("Error: Boing not recognized");
     } else {
       message.channel.send("Error: Boi not recognized");
     }
