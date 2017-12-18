@@ -123,7 +123,7 @@ var settingsMentionsString = new RegExp(/^~settings\smentions\s[a-z]+/i);
 var getMentionsString = new RegExp(/^~settings\smentions/i);
 
 //Declares regexp for Boi commands
-var boiString = new RegExp(/^[a-z]+\sboi/i);
+var boiString = new RegExp(/^[a-z]+\sboi\r/i);
 
 //Functions that determines a new random time for Mojave meme
 function mojaveTime() {
