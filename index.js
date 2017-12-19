@@ -29,7 +29,7 @@ client.pointsMonitor = (client, message, settings) => {
   if (message.content.startsWith("~")) return;
 
   //Creates a new score tally if the user doesn't have one, or gets their current points
-  const score = client.points.get((message.author.id + message.guild.id)) || { points: 0, level: 0 };
+  const score = client.points.get((message.author.id + message.guild.id + "2")) || { points: 0, level: 0 };
 
   //Checks to see if the user is on cooldown
   if (cooldown < 5) {
@@ -49,7 +49,7 @@ client.pointsMonitor = (client, message, settings) => {
   lastUser = message.author.id;
 
   //Calculates your points for your level
-  const curLevel = Math.floor(0.3 * Math.sqrt(score.points));
+  const curLevel = Math.floor(Math.sqrt(score.points));
 
   //Checks to see if you have enough points to go up a level
   if (score.level < curLevel) {
@@ -71,7 +71,7 @@ client.pointsMonitor = (client, message, settings) => {
   }
 
   //Saves the new score
-  client.points.set((message.author.id + message.guild.id), score);
+  client.points.set((message.author.id + message.guild.id + "2"), score);
 };
 
 //Tells the bot what token to login with
@@ -475,7 +475,7 @@ client.on("message", message => {
 
   if (message.content.toLowerCase() === (prefix + "points")) {
     try {
-      const scorePoints = client.points.get((message.author.id + message.guild.id)).points;
+      const scorePoints = client.points.get((message.author.id + message.guild.id + "2")).points;
       !scorePoints ? message.channel.send("You have no points yet.") : message.channel.send(`You have ${scorePoints} points!`);
       cooldown = 0;
     } catch(err) {
@@ -485,7 +485,7 @@ client.on("message", message => {
 
   if (message.content.toLowerCase() === (prefix + "level")) {
     try {
-      const scoreLevel = client.points.get((message.author.id + message.guild.id)).level;
+      const scoreLevel = client.points.get((message.author.id + message.guild.id + "2")).level;
       !scoreLevel ? message.channel.send("You have no levels yet.") : message.channel.send(`You are currently level ${scoreLevel}!`);
       cooldown = 0;
     } catch(err) {
