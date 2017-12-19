@@ -26,10 +26,18 @@ client.pointsMonitor = (client, message, settings) => {
   if (message.channel.type !== "text") return;
 
   //Returns if it is a bot command
-  if (message.content.startsWith("~")) return;
+  if (message.content.startsWith("~") || message.content.startsWith("!")) return;
 
   //Creates a new score tally if the user doesn't have one, or gets their current points
   const score = client.points.get((message.author.id + message.guild.id + "2")) || { points: 0, level: 0 };
+
+  //Gets points if they had an old score
+  const oldscore = client.points.get((message.author.id + message.guild.id)) || { points: 0, level: 0 };
+
+  //Converts old score to new score
+  if (score.points < oldscore.points) {
+    score.points = oldscore.points;
+  }
 
   //Checks to see if the user is on cooldown
   if (cooldown < 5) {
