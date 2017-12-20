@@ -574,7 +574,7 @@ client.on("message", message => {
   }
 });
 
-schedule.scheduleJob({hour: 23, minute: 58, dayOfWeek: 2}, function(){
+schedule.scheduleJob({hour: 23, minute: 57, dayOfWeek: 2}, function(){
   client.channels.get("140946564901240832").send("", {
     file: "https://i.imgur.com/SPDD3R2.jpg"
   });
