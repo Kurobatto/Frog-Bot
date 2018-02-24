@@ -10,6 +10,10 @@ const settings = require("./settings.json");
 const settingsProvider = new EnmapLevel({name: "settings"});
 client.settings = new Enmap({provider: settingsProvider});
 
+//Tracks the amount of bois found
+const boiProvider = new EnmapLevel({name: "found"});
+client.found = new Enmap({provider: boiProvider});
+
 //Declares variables for werewolf game
 //var werewolfOn = false;
 
@@ -82,6 +86,10 @@ client.pointsMonitor = (client, message, settings) => {
   client.points.set((message.author.id + message.guild.id + "2"), score);
 };
 
+//Defines boi array
+var boiArray = ["good", "bad", "adequate", "howdy", "normal", "furry", "kinky", "biker", "meme", "frog", "loving", "weird", "space", "magical", "sad", "test", "bye", "awful", "stupid"
+  , "terrible", "worst", "worse", "horse", "boing"];
+
 //Tells the bot what token to login with
 client.login(settings.token);
 
@@ -90,6 +98,12 @@ client.on("ready",() => {
   console.log("Frogbot ready for combat!");
   //Sets the bot"s game display message
   client.user.setPresence({ status: "online", game: { name: "on a unicycle", type: 0 } });
+
+  //Sets the table of bois found
+  for (var i = 0; i < boiArray.length; i++) {
+    client.found.get(i) || { found: false };
+  }
+
 });
 
 //Defines the array for each discord channel, names, and colors
@@ -176,42 +190,45 @@ client.on("message", message => {
   //Sends control to pointsMonitor function
   client.pointsMonitor(client, message, userSettings);
 
+  //Ignores message if using strikeout feature
+  if (message.content.startsWith("~~")) return;
+
   if (boiString.test(messageString)) {
-    if (message.content.toLowerCase().startsWith("good")) {
+    if (message.content.toLowerCase().startsWith(boiArray[0])) {
       message.channel.send("Ribbit :frog:");
-    } else if (message.content.toLowerCase().startsWith("bad")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[1])) {
       message.channel.send("<:ChillBinch:248943253221670923>");
-    } else if (message.content.toLowerCase().startsWith("adequate")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[2])) {
       message.channel.send("Okay...");
-    } else if (message.content.toLowerCase().startsWith("howdy")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[3])) {
       message.channel.send("yee haw");
       client.user.setPresence({ status: "online", game: { name: "on a bull", type: 0 } });
-    } else if (message.content.toLowerCase().startsWith("normal")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[4])) {
       message.channel.send("Ribbit");
       client.user.setPresence({ status: "online", game: { name: "on a unicycle", type: 0 } });
-    } else if (message.content.toLowerCase().startsWith("furry")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[5])) {
       message.channel.send("OwO What's this?");
-    } else if (message.content.toLowerCase().startsWith("kinky")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[6])) {
       message.channel.send("Ewwwwwwwww.");
-    } else if (message.content.toLowerCase().startsWith("biker")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[7])) {
       message.channel.send("Vroom vroom.");
       client.user.setPresence({ status: "online", game: { name: "on a motorcycle", type: 0 } });
-    } else if (message.content.toLowerCase().startsWith("meme")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[8])) {
       message.channel.send("It is wednesday my dudes.");
-    } else if (message.content.toLowerCase().startsWith("frog")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[9])) {
       message.channel.send("Yes.");
-    } else if (message.content.toLowerCase().startsWith("loving")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[10])) {
       message.channel.send(":heart:");
-    } else if (message.content.toLowerCase().startsWith("weird")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[11])) {
       message.channel.send("?");
-    } else if (message.content.toLowerCase().startsWith("space")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[12])) {
       message.channel.send("Pew pew");
       client.user.setPresence({ status: "online", game: { name: "on a spaceship", type: 0 } });
-    } else if (message.content.toLowerCase().startsWith("magical") || message.content.toLowerCase().startsWith("magic")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[13])) {
       message.channel.send("DO NOT THROW SOUL!");
-    } else if (message.content.toLowerCase().startsWith("sad")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[14])) {
       message.channel.send(":frowning:");
-    } else if (message.content.toLowerCase().startsWith("test")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[15])) {
       //Sends a placeholder message to compare times
       message.channel.send(":ping_pong: Pong!").then(message => {
         //Subtracts this message"s time by the user"s message to calculate ping
@@ -221,15 +238,15 @@ client.on("message", message => {
           message.channel.send("Wait a minute, that can\"t be right...");
         }
       });
-    } else if (message.content.toLowerCase().startsWith("bye")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[16])) {
       client.channel.send("", {
         file: "http://i0.kym-cdn.com/photos/images/original/001/112/711/28e.jpg"
       });
-    } else if (message.content.toLowerCase().startsWith("awful") || message.content.toLowerCase().startsWith("stupid") || message.content.toLowerCase().startsWith("terrible") || message.content.toLowerCase().startsWith("worst") || message.content.toLowerCase().startsWith("worse")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[17]) || message.content.toLowerCase().startsWith(boiArray[18]) || message.content.toLowerCase().startsWith(boiArray[19]) || message.content.toLowerCase().startsWith(boiArray[20]) || message.content.toLowerCase().startsWith(boiArray[21])) {
       message.channel.send("No bully!");
-    } else if (message.content.toLowerCase().startsWith("horse")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[22])) {
       message.channel.send("Neeeiiiiigggggghhhhh.");
-    } else if (message.content.toLowerCase().startsWith("boing")) {
+    } else if (message.content.toLowerCase().startsWith(boiArray[23])) {
       message.channel.send("Error: Boing not recognized");
     } else {
       message.channel.send("Error: Boi not recognized");
@@ -574,7 +591,7 @@ client.on("message", message => {
   }
 });
 
-schedule.scheduleJob({hour: 23, minute: 57, dayOfWeek: 2}, function(){
+schedule.scheduleJob({hour: 0, minute: 0, second: 1, dayOfWeek: 2}, function(){
   client.channels.get("140946564901240832").send("", {
     file: "https://i.imgur.com/SPDD3R2.jpg"
   });
