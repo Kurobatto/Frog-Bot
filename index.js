@@ -4,7 +4,6 @@ const client = new Discord.Client();
 const schedule = require("node-schedule");
 const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
-const settings = require("./settings.json");
 
 //Tracks settings for users with bot
 const settingsProvider = new EnmapLevel({name: "settings"});
@@ -21,9 +20,11 @@ client.found = new Enmap({provider: boiProvider});
 const pointProvider = new EnmapLevel({name: "points"});
 client.points = new Enmap({provider: pointProvider});
 
+
 //Declares two variables for determining cooldown
 var cooldown = 0;
 var lastUser;
+
 
 client.pointsMonitor = (client, message, settings) => {
   //Returns if message is dm
@@ -33,15 +34,7 @@ client.pointsMonitor = (client, message, settings) => {
   if (message.content.startsWith("~") || message.content.startsWith("!")) return;
 
   //Creates a new score tally if the user doesn't have one, or gets their current points
-  const score = client.points.get((message.author.id + message.guild.id + "2")) || { points: 0, level: 0 };
-
-  //Gets points if they had an old score
-  const oldscore = client.points.get((message.author.id + message.guild.id)) || { points: 0, level: 0 };
-
-  //Converts old score to new score
-  if (score.points < oldscore.points) {
-    score.points = oldscore.points;
-  }
+  const score = client.points.get((message.author.id + message.guild.id)) || { points: 0, level: 0 };
 
   //Checks to see if the user is on cooldown
   if (cooldown < 5) {
@@ -83,7 +76,7 @@ client.pointsMonitor = (client, message, settings) => {
   }
 
   //Saves the new score
-  client.points.set((message.author.id + message.guild.id + "2"), score);
+  client.points.set((message.author.id + message.guild.id), score);
 };
 
 //Defines boi array
@@ -91,7 +84,7 @@ var boiArray = ["good", "bad", "adequate", "howdy", "normal", "furry", "kinky", 
   , "terrible", "worst", "worse", "horse", "boing"];
 
 //Tells the bot what token to login with
-client.login(settings.token);
+client.login(process.env.TOKEN);
 
 //Sends startup message when fired
 client.on("ready",() => {
@@ -500,9 +493,9 @@ client.on("message", message => {
 
   if (message.content.toLowerCase() === (prefix + "points")) {
     try {
-      const scorePoints = client.points.get((message.author.id + message.guild.id + "2")).points;
+      const scorePoints = client.points.get(message.author.id + message.guild.id).points;
       !scorePoints ? message.channel.send("You have no points yet.") : message.channel.send(`You have ${scorePoints} points!`);
-      cooldown = 0;
+      //cooldown = 0;
     } catch(err) {
       message.channel.send("Please send a non-command message first before checking points.");
     }
@@ -510,9 +503,9 @@ client.on("message", message => {
 
   if (message.content.toLowerCase() === (prefix + "level")) {
     try {
-      const scoreLevel = client.points.get((message.author.id + message.guild.id + "2")).level;
+      const scoreLevel = client.points.get((message.author.id + message.guild.id)).level;
       !scoreLevel ? message.channel.send("You have no levels yet.") : message.channel.send(`You are currently level ${scoreLevel}!`);
-      cooldown = 0;
+      //cooldown = 0;
     } catch(err) {
       message.channel.send("Please send a non-command message first before checking points.");
     }
@@ -573,8 +566,59 @@ client.on("message", message => {
     } else {
       message.channel.send("Your current settings for mentions is: on.");
     }
-  } else {
+  } else
 
+  if (message.content.toLowerCase() === (prefix + "leaderboard")) {
+    //Converts users into array
+    var serverUsers = client.users.array();
+
+    //Defines leaderboard array
+    var leaderboardArray = [[]];
+    leaderboardArray[1] = [];
+    leaderboardArray[2] = [];
+
+    //Keeps track of leaderboardArrayposition
+    var pos = 0;
+
+    //Gets all the users points
+    for (i = 0; i < message.guild.memberCount; i++) {
+      try {
+        leaderboardArray[2][pos] = client.points.get((serverUsers[i] + message.guild.id)).points;
+        leaderboardArray[1][pos] = client.points.get((serverUsers[i] + message.guild.id)).level;
+        leaderboardArray[0][pos] = message.guild.members(serverUsers[i]).displayName;
+        pos++;
+      } catch (err) {
+        continue;
+      }
+    }
+
+    //Keeps track of the max value in the array
+    var max;
+
+    for (i = 0; i < leaderboardArray[0].length; i++) {
+      max = leaderboardArray[2][i];
+      for (var j = i + 1; j < leaderboardArray[0].length; j++) {
+        if (max < leaderboardArray[2][j]) {
+          for (var k = 0; k < 3; k++) {
+            max = leaderboardArray[k][i];
+            leaderboardArray[k][i] = leaderboardArray[k][j];
+            leaderboardArray[k][j] = max;
+          }
+          max = leaderboardArray[2][i];
+        }
+      }
+    }
+
+    var message1 = "```Java\n:clipboard: Rank | Name | Level | Points \n\n";
+
+    for (i = 0; i < leaderboardArray[0].length; i++) {
+      message1 = message1.concat(`[${i + 1}] | ${leaderboardArray[0][i]} | ${leaderboardArray[1][i]} | ${leaderboardArray[2][i]}\n`);
+    }
+
+    message1 = message1.concat(`\`\`\``);
+
+    message.channel.send(message1);
+  } else {
 
 
   //Werewolf game command
@@ -604,3 +648,16 @@ schedule.scheduleJob(mojaveRule, function(){
 schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 5}, function(){
   mojaveTime();
 });
+
+
+const http = require("http");
+const express = require("express");
+const app = express();
+app.get("/", (request, response) => {
+  console.log(Date.now() + " Ping Received");
+  response.sendStatus(200);
+});
+app.listen(process.env.PORT);
+setInterval(() => {
+  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+}, 280000);
