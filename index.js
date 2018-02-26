@@ -141,9 +141,11 @@ var getMentionsString = new RegExp(/^~settings\smentions/i);
 //Declares regexp for Boi commands
 var boiString = new RegExp(/^[a-z]+\sboi$/i);
 
+var emojiString = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|[\ud83c[\ude50\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
+
 const padObject = {
-  0: 35,
-  1: 7,
+  0: 20,
+  1: 9,
   2: 10
 };
 
@@ -587,17 +589,8 @@ client.on("message", message => {
     //Keeps track of leaderboardArrayposition
     var pos = 0;
 
-    /*
-    console.log(serverUsers[3].id + message.guild.id);
-    console.log(message.author.id + message.guild.id);
-    console.log(client.points.get(serverUsers[3].id + message.guild.id).points);
-    console.log(client.points.get(message.author.id + message.guild.id).points);
-    leaderboardArray[2][3] = client.points.get(serverUsers[3].id + message.guild.id).points;
-    console.log(leaderboardArray[2][3]);
-    */
-
     //Gets all the users points
-    for (i = 0; i < message.guild.memberCount; i++) {
+    for (i = 0; i < serverUsers.length; i++) {
       try {
         leaderboardArray[2][pos] = client.points.get(serverUsers[i].id + message.guild.id).points;
         leaderboardArray[1][pos] = client.points.get(serverUsers[i].id + message.guild.id).level;
@@ -625,16 +618,17 @@ client.on("message", message => {
       }
     }
 
-    var message1 = "```Java\n📋 Rank | Name | Level | Points \n\n";
-    var message2 = `[0]`.padEnd(8);
+    var message1 = "```Java\n📋 Rank | Name              | Level  | Points \n\n";
+    var message2 = `[1]`.padEnd(8);
 
     for (i = 0; i < leaderboardArray[0].length; i++) {
       for (j = 0; j < 3; j++) {
         message1 = message1.concat(message2);
-        message2 = `| ${leaderboardArray[j][i]}`.padEnd(padObject[j]);
+        message2 = `| ${leaderboardArray[j][i]}`.replace(emojiString, "");
+        message2 = message2.padEnd(padObject[j]);
       }
+      message1 = message1.concat(message2 + "\n");
       message2 = `[${i + 2}]`.padEnd(8);
-      message1 = message1.concat(`\n`);
     }
 
     message1 = message1.concat(`\`\`\``);
