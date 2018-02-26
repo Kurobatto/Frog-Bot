@@ -4,6 +4,7 @@ const client = new Discord.Client();
 const schedule = require("node-schedule");
 const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
+const settings = require("./settings.json");
 
 //Tracks settings for users with bot
 const settingsProvider = new EnmapLevel({name: "settings"});
@@ -84,7 +85,7 @@ var boiArray = ["good", "bad", "adequate", "howdy", "normal", "furry", "kinky", 
   , "terrible", "worst", "worse", "horse", "boing"];
 
 //Tells the bot what token to login with
-client.login(process.env.TOKEN);
+client.login(settings.token);
 
 //Sends startup message when fired
 client.on("ready",() => {
@@ -580,11 +581,18 @@ client.on("message", message => {
     //Keeps track of leaderboardArrayposition
     var pos = 0;
 
+    console.log(serverUsers[3].id + message.guild.id);
+    console.log(message.author.id + message.guild.id);
+    console.log(leaderboardArray[2][0]);
+    leaderboardArray[2][0] = 2;
+    console.log(leaderboardArray[2][0]);
+    console.log(client.points.get(serverUsers[3].id + message.guild.id).points);
+
     //Gets all the users points
     for (i = 0; i < message.guild.memberCount; i++) {
       try {
-        leaderboardArray[2][pos] = client.points.get((serverUsers[i] + message.guild.id)).points;
-        leaderboardArray[1][pos] = client.points.get((serverUsers[i] + message.guild.id)).level;
+        leaderboardArray[2][pos] = client.points.get(serverUsers[i].id + message.guild.id).points;
+        leaderboardArray[1][pos] = client.points.get(serverUsers[i].id + message.guild.id).level;
         leaderboardArray[0][pos] = message.guild.members(serverUsers[i]).displayName;
         pos++;
       } catch (err) {
@@ -609,10 +617,14 @@ client.on("message", message => {
       }
     }
 
-    var message1 = "```Java\n:clipboard: Rank | Name | Level | Points \n\n";
+    var message1 = "```Java\n📋 Rank | Name | Level | Points \n\n";
+
+    console.log("Got here!");
+    console.log(leaderboardArray[0][0]);
 
     for (i = 0; i < leaderboardArray[0].length; i++) {
       message1 = message1.concat(`[${i + 1}] | ${leaderboardArray[0][i]} | ${leaderboardArray[1][i]} | ${leaderboardArray[2][i]}\n`);
+      console.log(message1);
     }
 
     message1 = message1.concat(`\`\`\``);
