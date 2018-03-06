@@ -5,9 +5,6 @@ const schedule = require("node-schedule");
 const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
 const config = require("./config.json");
-const boi = require("./boi.js");
-const functions = require("./functions.js");
-const objects = require("./objects.json");
 //const settings = require("./settings.json");
 
 //Tracks settings for users with bot
@@ -88,6 +85,33 @@ client.pointsMonitor = (client, message, settings) => {
 var boiArray = ["good", "bad", "adequate", "howdy", "normal", "furry", "kinky", "biker", "meme", "frog", "loving", "weird", "space", "magical", "sad", "test", "bye", "awful", "stupid"
   , "terrible", "worst", "worse", "horse", "boing"];
 
+function ping(message, startTime) {
+  //Sends a placeholder message to compare times
+  message.channel.send(":ping_pong: Pong!").then(message => {
+    //Subtracts this message"s time by the user"s message to calculate ping
+    message.edit(`This message took \`${Math.round(message.createdTimestamp - startTime)} ms\` to reach you!`);
+    //Checks to see if there is a 0 or negative ping value, then displays error message
+    if (Math.round(message.createdTimestamp - startTime <= 0)) {
+      message.channel.send("Wait a minute, that can\"t be right...");
+    }
+  });
+}
+
+//Declares function that calculates dice total
+function diceCalculator(diceAmount, diceNumber) {
+  var diceTotalTemp = 0;
+  for (let i = 0; i < diceAmount; i++) {
+    diceTotalTemp += Math.floor((Math.random() * diceNumber) + 1);
+  }
+  return diceTotalTemp;
+}
+
+const padObject = {
+  0: 20,
+  1: 9,
+  2: 10
+};
+
 //Tells the bot what token to login with
 client.login(process.env.TOKEN);
 
@@ -121,7 +145,68 @@ var mojaveHour = 0;
 var mojaveMinute = 0;
 var mojaveRule = new schedule.RecurrenceRule();
 
+//Declares variables for tragedy functions
+var tragedyHour = 0;
+var tragedyMinute = 0;
+var tragedyRule = new schedule.RecurrenceRule();
+
 var emojiString = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|[\ud83c[\ude50\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
+
+const textBois = {
+  "good boi": "Ribbit :frog:",
+  "bad boi": "<:ChillBinch:248943253221670923>",
+  "adequate boi": "Okay...",
+  "furry boi": "OwO What's this?",
+  "kinky boi": "Ewwwwwwwww.",
+  "meme boi": "It is wednesday my dudes.",
+  "frog boi": "Yes.",
+  "loving boi": ":heart:",
+  "weird boi": "?",
+  "magical boi": "DO NOT THROW SOUL!",
+  "sad boi": ":frowning:",
+  "awful boi": "No bully!",
+  "stupid boi": "No bully!",
+  "terrible boi": "No bully!",
+  "worst boi": "No bully!",
+  "worse boi": "No bully!",
+  "horse boi": "Neeeiiiiigggggghhhhh.",
+  "boing boi": "Error: Boing not recognized"
+};
+
+const funcBois = {
+  "howdy boi": function (details) {
+    details[1].channel.send("yee haw");
+    details[0].user.setPresence({ status: "online", game: { name: "on a bull", type: 0 } });
+  },
+  "normal boi": function (details) {
+    details[1].channel.send("Ribbit");
+    details[0].user.setPresence({ status: "online", game: { name: "on a unicycle", type: 0 } });
+  },
+  "biker boi": function (details) {
+    details[1].channel.send("Vroom vroom");
+    details[0].user.setPresence({ status: "online", game: { name: "on a motorcycle", type: 0 } });
+  },
+  "space boi": function (details) {
+    details[1].channel.send("Pew pew");
+    details[0].user.setPresence({ status: "online", game: { name: "on a spaceship", type: 0 } });
+  },
+  "test boi": function (details) {
+    //Sends a placeholder message to compare times
+    details[1].channel.send(":ping_pong: Pong!").then(message => {
+      //Subtracts this message"s time by the user"s message to calculate ping
+      message.edit(`This message took \`${Math.round(message.createdTimestamp - details[2])} ms\` to reach you!`);
+      //Checks to see if there is a 0 or negative ping value, then displays error message
+      if (Math.round(message.createdTimestamp - details[2] <= 0)) {
+        message.channel.send("Wait a minute, that can\"t be right...");
+      }
+    });
+  },
+  "bye boi": function (details) {
+    details[1].channel.send("", {
+      file: "http://i0.kym-cdn.com/photos/images/original/001/112/711/28e.jpg"
+    });
+  }
+};
 
 //Functions that determines a new random time for Mojave meme
 function mojaveTime() {
@@ -131,7 +216,18 @@ function mojaveTime() {
   mojaveRule.dayOfWeek = 4;
   mojaveRule.hour = mojaveHour;
   mojaveRule.minute = mojaveMinute;
-  console.log(mojaveMinute + " " + mojaveHour);
+  console.log(mojaveHour + " " + mojaveMinute);
+}
+
+//Functions that determines a new random time for Mojave meme
+function tragedyTime() {
+  //Sets time for the mojave meme
+  tragedyHour = Math.floor((Math.random() * (23 - 0 + 1)) + 0);
+  tragedyMinute = Math.floor((Math.random() * (59 - 0 + 1)) + 0);
+  tragedyRule.dayOfWeek = 2;
+  tragedyRule.hour = tragedyHour;
+  tragedyRule.minute = tragedyMinute;
+  console.log(tragedyHour + " " + tragedyMinute);
 }
 
 //Executes mojaveTime function
@@ -148,6 +244,8 @@ client.on("message", message => {
   const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
 
+  const details = [client, message, startTime];
+
   //Gets the users settings
   const userSettings = client.settings.get(message.author.id) || { mentions: true };
 
@@ -157,19 +255,21 @@ client.on("message", message => {
   //Ignores message if using strikeout feature
   if (message.content.startsWith("~~")) return;
 
+
   //Handles the boi function
-  if(boi.textBois[message.content.toLowerCase()]) {
-    message.channel.send(boi.textBois[message.content.toLowerCase()]);
-  } else if (boi.funcBois[message.content.toLowerCase()]) {
-    boi.funcBois[message.content.toLowerCase()](client, message, startTime);
+  if(textBois[message.content.toLowerCase()]) {
+    message.channel.send(textBois[message.content.toLowerCase()]);
+  } else if (funcBois[message.content.toLowerCase()]) {
+    funcBois[message.content.toLowerCase()](details);
   }
+
 
   //Ignores message if it does not start with prefix
   if (!message.content.startsWith(config.prefix)) return;
 
   //Displays the amount of time it took in miliseconds to receive command and to respond
   if (command === "ping") {
-    functions.ping(message, startTime);
+    ping(message, startTime);
   } else
 
   //Message that tells commands, aka huge mess. Need to find a better way to display in source code.
@@ -236,21 +336,19 @@ client.on("message", message => {
   //Checks to see if the message follows the dice roll command format
   if (command === "r") {
     //Declares some variables for use later
-    var diceAmount = 0;
+    var diceAmount = 1;
     var diceNumber = 0;
     var diceTotal = 0;
 
     //Trims the dice command into two separate numbers
-    var diceArray = args[0].trim().split(/d+/g);
+    var diceArray = args[0].trim().split(/d/g);
 
     //Checks to see if the message is a variant of the dice rolling command
-    if (diceArray[1]) {
+    if (diceArray[0] != "") {
       //Sets the dice amount and dice number
       diceAmount = parseInt(diceArray[0]);
       diceNumber = parseInt(diceArray[1]);
     } else {
-      //Sets the dice amount and dice number
-      diceAmount = 1;
       diceNumber = parseInt(diceArray[1]);
     }
 
@@ -267,7 +365,7 @@ client.on("message", message => {
     }
 
     //Calculates the dice total before any operations
-    diceTotal = functions.diceCalculator(diceAmount, diceNumber);
+    diceTotal = diceCalculator(diceAmount, diceNumber);
 
     //Applies operators to the dice result
     for (let i = 1; i < Math.floor((args.length + 1) / 2); i++) {
@@ -344,7 +442,7 @@ client.on("message", message => {
       } else if (botchoice == 1){
         message.channel.send("Paper.");
       } else if (botchoice == 3) {
-        message.channel.send("Gun");
+        message.channel.send("Gun.");
         message.channel.send("You lose!");
         return;
       } else {
@@ -375,7 +473,7 @@ client.on("message", message => {
       }
     } else {
       //Sends error message if the proper command was not chosen
-      message.channel.send("Error: Please play with either rock, paper, or scissors");
+      message.channel.send("Error: Please play with either rock, paper, or scissors.");
     }
   } else
 
@@ -493,7 +591,7 @@ client.on("message", message => {
       for (let j = 0; j < 3; j++) {
         message1 = message1.concat(message2);
         message2 = `| ${leaderboardArray[j][i]}`.replace(emojiString, "");
-        message2 = message2.padEnd(objects.padObject[j]);
+        message2 = message2.padEnd(padObject[j]);
       }
       message1 = message1.concat(message2 + "\n");
       message2 = `[${i + 2}]`.padEnd(8);
@@ -502,7 +600,11 @@ client.on("message", message => {
     message1 = message1.concat(`\`\`\``);
 
     message.channel.send(message1);
-  } else {
+  } else
+
+  if (command === "tragedy") {
+    message.channel.send("Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.");
+  }  else {
 
 
   //Werewolf game command
@@ -523,10 +625,15 @@ schedule.scheduleJob({hour: 5, minute: 0, second: 1, dayOfWeek: 3}, function(){
   client.channels.get("140946564901240832").send("", {
     file: "https://i.imgur.com/SPDD3R2.jpg"
   });
+  tragedyTime();
 });
 
 schedule.scheduleJob(mojaveRule, function(){
   client.channels.get(discordChannel[Math.floor(Math.random() * discordChannel.length)]).send("Patrolling the Mojave almost makes you wish for a nuclear winter.");
+});
+
+schedule.scheduleJob(tragedyRule, function(){
+  client.channels.get(discordChannel[Math.floor(Math.random() * discordChannel.length)]).send("Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.");
 });
 
 schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 5}, function(){
