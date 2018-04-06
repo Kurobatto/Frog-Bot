@@ -150,7 +150,7 @@ var tragedyHour = 0;
 var tragedyMinute = 0;
 var tragedyRule = new schedule.RecurrenceRule();
 
-var emojiString = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|[\ud83c[\ude50\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
+var legalString = /[^\x00-\x7F]/g;
 
 const textBois = {
   "good boi": "Ribbit :frog:",
@@ -170,7 +170,8 @@ const textBois = {
   "worst boi": "No bully!",
   "worse boi": "No bully!",
   "horse boi": "Neeeiiiiigggggghhhhh.",
-  "boing boi": "Error: Boing not recognized"
+  "boing boi": "Error: Boing not recognized",
+  "waluigi boi": "Waaaaaaaaaaaaaaaaaaa"
 };
 
 const funcBois = {
@@ -262,6 +263,33 @@ client.on("message", message => {
   } else if (funcBois[message.content.toLowerCase()]) {
     funcBois[message.content.toLowerCase()](details);
   }
+  
+  /*
+  if (message.guild.id === "98910743633608704") {
+	var waachoice = Math.floor((Math.random() * 4) + 0);
+	var waaachoice = Math.floor((Math.random() * 7) + 0);
+
+	if (waachoice === 2) {
+		if (waaachoice === 0) {
+			message.channel.send("Waluigi!");
+		} else if (waaachoice === 1) {
+			message.channel.send("Waaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		} else if (waaachoice === 2) {
+			message.channel.send("Waa waa waa waa");
+		} else if (waaachoice === 3) {
+			message.channel.send("It's a me, Waluigi!");
+		} else if (waaachoice === 4) {
+			message.channel.send("Wahahahahaha");
+		} else if (waachoice === 5) {
+			message.channel.send("Waa Wa Waaaaaaaaaaaaaa");
+		}
+	}
+  }
+  */
+  
+  if (message.content.toLowerCase() === "waa") {
+    message.channel.send("https://i.redditmedia.com/qK8X4QE-1uaI-nmX8_ALe0qQ2McRtHeOcWGxTZe_vjA.jpg?fit=crop&crop=faces%2Centropy&arh=2&w=640&s=6fd63539786dc7a46dc4ff1c2b78bbd9%22");
+  }
 
 
   //Ignores message if it does not start with prefix
@@ -300,7 +328,7 @@ client.on("message", message => {
   } else
 
   //B emoji version of ping command
-  if (command === "🅱ing" || command === "🅱️ing") {
+  if (command === "??ing" || command === "???ing") {
     //Sends a placeholder message to compare times
     message.channel.send(":ping_pong: :b:ong!").then(message => {
       //Subtracts this message"s time by the user"s message to calculate ping
@@ -584,27 +612,34 @@ client.on("message", message => {
       }
     }
 
-    var message1 = "```Java\n📋 Rank | Name              | Level  | Points \n\n";
+
+    var message1 = "```Java\n?? Rank | Name              | Level  | Points \n\n";
     var message2 = `[1]`.padEnd(8);
+	
+
 
     for (let i = 0; i < leaderboardArray[0].length; i++) {
       for (let j = 0; j < 3; j++) {
         message1 = message1.concat(message2);
-        message2 = `| ${leaderboardArray[j][i]}`.replace(emojiString, "");
+        message2 = `| ${leaderboardArray[j][i]}`.replace(legalString, "");
         message2 = message2.padEnd(padObject[j]);
       }
       message1 = message1.concat(message2 + "\n");
       message2 = `[${i + 2}]`.padEnd(8);
     }
 
-    message1 = message1.concat(`\`\`\``);
+	message1 = message1.concat(`\`\`\``);
 
     message.channel.send(message1);
   } else
 
   if (command === "tragedy") {
-    message.channel.send("Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.");
-  }  else {
+    message.channel.send("Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It�s not a story the Jedi would tell you. It�s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life� He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful� the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.");
+  }  else
+  
+  if (command === "waluigi") {
+    message.channel.send("https://www.youtube.com/watch?v=a8gtDQ_ajr8%22");
+  } else {
 
 
   //Werewolf game command
@@ -621,6 +656,7 @@ client.on("message", message => {
   }
 });
 
+
 schedule.scheduleJob({hour: 5, minute: 0, second: 1, dayOfWeek: 3}, function(){
   client.channels.get("140946564901240832").send("", {
     file: "https://i.imgur.com/SPDD3R2.jpg"
@@ -628,17 +664,23 @@ schedule.scheduleJob({hour: 5, minute: 0, second: 1, dayOfWeek: 3}, function(){
   tragedyTime();
 });
 
+
 schedule.scheduleJob(mojaveRule, function(){
   client.channels.get(discordChannel[Math.floor(Math.random() * discordChannel.length)]).send("Patrolling the Mojave almost makes you wish for a nuclear winter.");
 });
 
+/*
 schedule.scheduleJob(tragedyRule, function(){
-  client.channels.get(discordChannel[Math.floor(Math.random() * discordChannel.length)]).send("Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.");
+  client.channels.get(discordChannel[Math.floor(Math.random() * discordChannel.length)]).send("Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It�s not a story the Jedi would tell you. It�s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life� He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful� the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.");
 });
+*/
 
 schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 5}, function(){
   mojaveTime();
 });
+
+
+
 
 
 const http = require("http");
@@ -652,3 +694,35 @@ app.listen(process.env.PORT);
 setInterval(() => {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
+
+
+schedule.scheduleJob(mojaveRule, function(){
+  client.channels.get(discordChannel[Math.floor(Math.random() * discordChannel.length)]).send("Patrolling the Mojave almost makes you wish for a nuclear winter.");
+});
+
+/*
+schedule.scheduleJob(tragedyRule, function(){
+  client.channels.get(discordChannel[Math.floor(Math.random() * discordChannel.length)]).send("Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.");
+});
+*/
+
+schedule.scheduleJob({hour: 0, minute: 0, dayOfWeek: 5}, function(){
+  mojaveTime();
+});
+
+
+
+
+
+const http = require("http");
+const express = require("express");
+const app = express();
+app.get("/", (request, response) => {
+  console.log(Date.now() + " Ping Received");
+  response.sendStatus(200);
+});
+app.listen(process.env.PORT);
+setInterval(() => {
+  http.get(`http:\/'/${process.env.PROJECT_DOMAIN}.glitch.me/`);
+}, 280000);
+
